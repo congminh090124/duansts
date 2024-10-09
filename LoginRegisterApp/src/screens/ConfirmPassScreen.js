@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
+import { getApiUrl } from '../screens/API';
+import { useTranslation } from 'react-i18next';
 export default function ConfirmPassScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const { email } = route.params || {};
   const [otp, setOTP] = useState('');
   const [newPassword, setNewPassword] = useState('');
-
+  const { t, i18n } = useTranslation();
   const handleResetPassword = async () => {
     if (!email) {
       Alert.alert('Lỗi', 'Không tìm thấy email. Vui lòng thử lại.');
@@ -16,7 +17,7 @@ export default function ConfirmPassScreen() {
     }
 
     try {
-      const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/auth/resetpass', {
+      const response = await fetch(getApiUrl('/api/auth/resetpass'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,9 +51,9 @@ export default function ConfirmPassScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textqmk}>{"Đặt lại mật khẩu"}</Text>
-      <Text style={styles.text1}>{"Nhập OTP và mật khẩu mới"}</Text>
-      <Text style={styles.text1}>{email}</Text>
+      <Text style={styles.textqmk}>{t('newPassword')}</Text>
+      <Text style={styles.text1}>{t('enterOTPandNewPassword')}</Text>
+      <Text style={styles.text1}>{t('resetPassword')}</Text>
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
@@ -65,14 +66,14 @@ export default function ConfirmPassScreen() {
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
-          placeholder="Mật khẩu mới"
+          placeholder={t('newPassword')}
           value={newPassword}
           onChangeText={setNewPassword}
           secureTextEntry
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.text}>{"Đặt lại mật khẩu"}</Text>
+        <Text style={styles.text}>{t('resetPassword')}</Text>
       </TouchableOpacity>
     </View>
   );

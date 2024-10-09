@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getApiUrl } from '../screens/API';
 export default function LoginScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
@@ -33,7 +34,7 @@ export default function LoginScreen() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/auth/login', {
+      const response = await fetch(getApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

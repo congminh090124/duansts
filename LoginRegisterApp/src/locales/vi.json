@@ -14,6 +14,30 @@
     "orderList": "Danh sách đơn hàng",
     "orderDetail": "Chi tiết đơn hàng",
     "dangNhapDatHang": "Đăng nhập đặt hàng",
-    "alreadyhaveaccount": "Chua co tai khoan?"
+    "alreadyhaveaccount": "Chưa có tài khoản?",
+
+
+    "FogotPassWord":"Quên mật khẩu?",
+    "Pleaseenteryouremail":"Vui lòng nhập địa chỉ email của bạn",
+    "SendOTP":"Gửi OTP",
+    "BacktoLogin":"Quay lại đăng nhập",
+
+    "newPassword": "Mật khẩu mới",
+    "enterOTPandNewPassword": "Nhập OTP và mật khẩu mới",
+    "resetPassword": "Đặt lại mật khẩu",
+
+
+     "purchase_history": "Lịch sử mua hàng",
+     "Enter_your_order_code":"Nhập mã đơn hàng của bạn"
+    ,
+
+    "order_code": "Mã đơn",
+  "order_date": "Ngày đặt :",
+  "status": "Tình trạng : ",
+  "customer_name": "Tên khách hàng :"
+  ,
+
+   "nameproduct": "Tên",
+  "quantity": "Số lượng"
   }
   

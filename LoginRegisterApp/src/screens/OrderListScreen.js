@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { getApiUrl } from '../screens/API';
+import { useTranslation } from 'react-i18next';
 export default function OrderListScreen() {
+    const { t, i18n } = useTranslation();
     const [invoices, setInvoices] = useState([]);
     const [selectedInvoice, setSelectedInvoice] = useState(null);
 
@@ -11,7 +13,7 @@ export default function OrderListScreen() {
         const fetchInvoices = async () => {
             const userId = await AsyncStorage.getItem('userId');
             try {
-                const response = await axios.get(`https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/showInvoice/${userId}`);
+                const response = await axios.get(getApiUrl(`/api/hoaDon/showInvoice/${userId}`));
                 setInvoices(response.data);
             } catch (error) {
                 console.error('Error fetching invoices:', error);
@@ -42,7 +44,7 @@ export default function OrderListScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.text1}>
-                {"Lịch sử đặt hàng"}
+            {t('purchase_history')}
             </Text>
             <View style={styles.row}>
                 <Image
@@ -50,7 +52,7 @@ export default function OrderListScreen() {
                     resizeMode={"stretch"}
                     style={styles.image}
                 />
-                <TextInput style={styles.text} placeholder="Vui lòng nhập mã đơn của bạn." />
+                <TextInput style={styles.text} placeholder={t('Enter_your_order_code')} />
             </View>
             <ScrollView>
                 {invoices.map((invoice) => (
@@ -59,7 +61,7 @@ export default function OrderListScreen() {
                             <View style={styles.column}>
                                 <View style={styles.row0}>
                                     <Text style={styles.textcod1}>
-                                        {"Mã đơn "}
+                                    {t('order_code')}
                                     </Text>
                                     <Text style={styles.textcod}>
                                         {invoice._id}
@@ -67,7 +69,7 @@ export default function OrderListScreen() {
                                 </View>
                                 <View style={styles.row0}>
                                     <Text style={styles.textcod1}>
-                                        {"Ngày đặt :"}
+                                    {t('order_date')}
                                     </Text>
                                     <Text style={styles.text3}>
                                         {new Date(invoice.createdAt).toLocaleDateString()} {new Date(invoice.createdAt).toLocaleTimeString()}
@@ -75,7 +77,7 @@ export default function OrderListScreen() {
                                 </View>
                                 <View style={styles.row0}>
                                     <Text style={styles.textpay}>
-                                        {"Tình trạng : "}
+                                    {t('status')}
                                     </Text>
                                     <Text style={styles.textPC}>
                                         {invoice.tinhTrang}
@@ -83,7 +85,7 @@ export default function OrderListScreen() {
                                 </View>
                                 <View style={styles.row0}>
                                     <Text style={styles.textpay}>
-                                        {"Tên khách hàng :"}
+                                    {t('customer_name')}
                                     </Text>
                                     <Text style={styles.textuser}>
                                         {invoice.username || 'N/A'}
@@ -96,7 +98,7 @@ export default function OrderListScreen() {
                                 {selectedInvoice.cartItems.map((item) => (
                                     <View key={item.product._id} style={styles.detailRow}>
                                         <Text style={styles.detailText}>
-                                            {`Tên: ${item.nameProduct}: Số Lượng: ${item.quantity} ${item.unit}`}
+                                            {`${t('name')}: ${item.nameProduct}: ${t('quantity')}: ${item.quantity} ${item.unit}`}
                                         </Text>
                                     </View>
                                 ))}

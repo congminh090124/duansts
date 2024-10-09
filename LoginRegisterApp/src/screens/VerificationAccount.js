@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { getApiUrl } from '../screens/API';
 export default function VerificationAccountScreen({ navigation }) {
   const input1Ref = useRef(null);
   const input2Ref = useRef(null);
@@ -55,7 +55,7 @@ export default function VerificationAccountScreen({ navigation }) {
     }
 
     try {
-      const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/auth/verify-otp', {
+      const response = await fetch(getApiUrl('/api/auth/verify-otp'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

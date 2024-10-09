@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { useTranslation } from 'react-i18next';
+import { getApiUrl } from '../screens/API';
 export default function ForgotPasswordScreen() {
   const navigation = useNavigation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
+ 
 
   const handleSendOTP = async () => {
     try {
-      const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/auth/forgotpassword', {
+      const response = await fetch(getApiUrl('/api/auth/forgotpassword'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,7 +22,7 @@ export default function ForgotPasswordScreen() {
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert('Thành công', data.message);
+        Alert.alert ('Thành công', data.message);
 		navigation.navigate('ConfirmPass', { email: email });
       } else {
         throw new Error(data.message || 'Có lỗi xảy ra');
@@ -31,8 +34,8 @@ export default function ForgotPasswordScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textqmk}>{"Quên mật khẩu"}</Text>
-      <Text style={styles.text1}>{"Vui lòng nhập địa chỉ email của bạn"}</Text>
+      <Text style={styles.textqmk}>{t('forgotPassword')}</Text>
+      <Text style={styles.text1}>{t('Pleaseenteryouremail')}</Text>
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
@@ -43,10 +46,10 @@ export default function ForgotPasswordScreen() {
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSendOTP}>
-        <Text style={styles.text}>{"Gửi OTP"}</Text>
+        <Text style={styles.text}>{t('SendOTP')}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText}>{"Quay lại để đăng nhập"}</Text>
+        <Text style={styles.buttonText}>{t('BacktoLogin')}</Text>
       </TouchableOpacity>
     </View>
   );

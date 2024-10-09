@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal ,Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
 
@@ -26,14 +26,17 @@ export default function DropDownPickerScreen() {
             </View>
             
             <View style={styles.content}>
-                {/* Add your content here */}
+                <Image
+                    source={{ uri: 'https://i.pinimg.com/564x/6e/93/fd/6e93fd70335d4245fa0c0bad1126d21b.jpg' }}
+                    style={styles.hinhanhdicho}
+                />
             </View>
 
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('OderProduct')}
             >
-                <Text style={styles.buttonText}>đến tiếp theo</Text>
+                <Text style={styles.buttonText}>Đến tiếp theo</Text>
             </TouchableOpacity>
 
             <Modal
@@ -126,4 +129,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
     },
+    content: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      hinhanhdicho: {
+        width: '80%',
+        height: undefined,
+        aspectRatio: 1,
+        resizeMode: 'contain',
+        resizeMode: 'cover',
+      },
+    
 });

@@ -4,6 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './LoginScreen';
 import { useTranslation } from 'react-i18next';
+import { getApiUrl } from '../screens/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen() {
@@ -79,7 +80,7 @@ export default function RegisterScreen() {
     }
 
     try {
-      const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/auth/register', {
+      const response = await fetch(getApiUrl('/api/auth/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

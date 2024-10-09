@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Entypo';
+import { getApiUrl } from '../screens/API';
 const { width, height } = Dimensions.get('window');
 
 export default function ListOrderScreen() {
@@ -24,7 +25,7 @@ export default function ListOrderScreen() {
 
     const fetchCartItems = async () => {
         try {
-            const response = await axios.get('https://lacewing-evolving-generally.ngrok-free.app/api/cart/');
+            const response = await axios.get(getApiUrl('/api/cart/'));
             setCartItems(response.data);
         } catch (error) {
             console.error('Lỗi khi lấy dữ liệu giỏ hàng:', error);
@@ -38,7 +39,7 @@ export default function ListOrderScreen() {
             return;
         }
         try {
-            const response = await axios.put(`https://lacewing-evolving-generally.ngrok-free.app/api/cart/updateQuantity/${itemId}`, {
+            const response = await axios.put(getApiUrl(`/api/cart/updateQuantity/${itemId}`), {
                 quantity: newQuantity
             });
             if (response.status === 200) {
@@ -75,7 +76,7 @@ export default function ListOrderScreen() {
                                 data: { userId }
                             };
     
-                            await axios.delete(`https://lacewing-evolving-generally.ngrok-free.app/api/cart/${itemId}`, config);
+                            await axios.delete (getApiUrl(`/api/cart/${itemId}`), config);
                             fetchCartItems();
                         } catch (error) {
                             console.error('Lỗi khi xóa sản phẩm:', error);
@@ -98,7 +99,7 @@ export default function ListOrderScreen() {
 
             console.log('Dữ liệu thanh toán:', { userId, cartItems, tinhTrang: 'Thành Công' });
 
-            const response = await axios.post('https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/createInvoice', {
+            const response = await axios.post(getApiUrl('/api/hoaDon/createInvoice'), {
                 userId,
                 cartItems,
                 tinhTrang: 'Thành Công',

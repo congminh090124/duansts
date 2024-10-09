@@ -4,12 +4,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get('window');
+import { getApiUrl } from '../screens/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // Giả định API để tìm kiếm sản phẩm
 const searchProducts = async (keyword) => {
   try {
     console.log(`Searching for: "${keyword}"`);
-    const response = await fetch(`https://lacewing-evolving-generally.ngrok-free.app/api/product/search?keyword=${keyword}`);
+    const response = await fetch(getApiUrl(`/api/product/search?keyword=${keyword}`));
 
   
 
@@ -38,7 +39,7 @@ const searchProducts = async (keyword) => {
 // Giả định API để thêm sản phẩm mới
 const addNewProduct = async (nameProduct) => {
   // Thay thế URL này bằng URL thực của API của bạn
-  const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/product/addProduct', {
+  const response = await fetch(getApiUrl('/api/product/addProduct'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ const addToCart = async (productId, quantity, unit) => {
        return;
    }
   try {
-    const response = await fetch('https://lacewing-evolving-generally.ngrok-free.app/api/cart/addToCart', {
+    const response = await fetch(getApiUrl('/api/cart/addToCart'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
