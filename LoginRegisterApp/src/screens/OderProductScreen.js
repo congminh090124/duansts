@@ -6,6 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get('window');
 import { getApiUrl } from '../screens/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
+
+
 // Giả định API để tìm kiếm sản phẩm
 const searchProducts = async (keyword) => {
   try {
@@ -86,6 +89,8 @@ const addToCart = async (productId, quantity, unit) => {
 };
 
 export default function OderProductScreen() {
+
+  const { t, i18n } = useTranslation();
 // navigation
   const navigation = useNavigation();
   // menu
@@ -127,10 +132,10 @@ export default function OderProductScreen() {
 
   
   const menuOptions = [
-    { title: 'Trang chủ', onPress: () =>navigation.navigate("DropDownPicker") },
-    { title: 'Giỏ hàng', onPress: () => navigation.navigate("ListOder") },
-    { title: 'Lịch sử mua hàng', onPress: () => navigation.navigate("OrderListCode") },
-    { title: 'Đăng xuất', onPress: () =>  handleLogout()},
+    { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
+    { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
+    { title: `${t('purchase_history')}`, onPress: () => navigation.navigate("OrderListCode") },
+    { title:  `${t('logout')}`, onPress: () =>  handleLogout()},
   ];
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [quantity, setQuantity] = useState(''); // Trạng thái để lưu số lượng
@@ -204,11 +209,12 @@ export default function OderProductScreen() {
 
   const limitedResults = searchResults.slice(0, 4);
   return (
+    
 
     <SafeAreaView style={styles.container}>
      
       <View style={styles.header}>
-        <Text style={styles.headerText}>Tên đơn hàng</Text>
+        <Text style={styles.headerText}>{t('order_name')} </Text>
 
         <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
           <Icon name="menu" size={24} color="#000" />
@@ -241,10 +247,10 @@ export default function OderProductScreen() {
 
       
         <View style={styles.fieldContainer}>
-          <Text style={styles.label}>＊Tên sản phẩm</Text>
+          <Text style={styles.label}>{t('product_name')}</Text>
         </View>
         <TextInput
-          placeholder="Đầu vào chính của sản phẩm"
+          placeholder={t('product_input_placeholder')}
           style={styles.input}
           value={productName}
           onChangeText={setProductName}
@@ -273,13 +279,13 @@ export default function OderProductScreen() {
         )}
         <View style={styles.text2}>
           <Text style={styles.text1}>
-            {"＊Số lượng"}
+          {t('quantity')}
           </Text>
 
         </View>
         <View style={styles.text2}>
           <TextInput
-            placeholder={"Đầu vào số"}
+            placeholder={t('quantity_input_placeholder')}
             style={styles.input2}
             keyboardType="numeric"
             value={quantity}  // Liên kết với trạng thái số lượng
@@ -292,13 +298,13 @@ export default function OderProductScreen() {
             setOpen={setOpen}
             setValue={setUnit}
             setItems={setItems}
-            placeholder="Đơn vị"
+            placeholder={t('unit')}
            
             containerStyle={styles.donVi}
           />
         </View>
         <Text style={styles.textnx}>
-          {"*Nhận xét"}
+        {t('comment')}
         </Text>
         <TextInput
 
@@ -312,7 +318,7 @@ export default function OderProductScreen() {
         )}
 
         <TouchableOpacity onPress={handleAddToCart} style={styles.addToCartButton}>
-          <Text style={styles.addToCartButtonText}>Thêm vào giỏ hàng</Text>
+          <Text style={styles.addToCartButtonText}>{t('add_to_cart_button')}</Text>
         </TouchableOpacity>
      
     </SafeAreaView>
