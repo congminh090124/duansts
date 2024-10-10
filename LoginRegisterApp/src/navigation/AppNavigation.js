@@ -14,6 +14,7 @@ import NotificationScreen from '../screens/NotificationScreen';
 import OrderListScreen from '../screens/OrderListScreen';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import SupportCustomerScreen from '../screens/SupportCustomerScreen';
+import SupportChanelScreen from '../screens/SupportChanelScreen';
 import ListOderScreen from '../screens/ListOderScreen';
 import OderSucsess from '../screens/OderSucsess';
 import FaqScreen from '../screens/FaqScreen';
@@ -25,7 +26,7 @@ const AppNavigation = () => {
   return (
     <MenuProvider>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="VerificationCode">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
@@ -44,6 +45,10 @@ const AppNavigation = () => {
         <Stack.Screen 
           name="ForgotPassword" 
           component={ForgotPasswordScreen} 
+          options={{ headerShown: false }} // Hide the header
+        /><Stack.Screen 
+          name="SupportChannel" 
+          component={SupportChanelScreen} 
           options={{ headerShown: false }} // Hide the header
         />
         <Stack.Screen 

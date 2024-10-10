@@ -1,7 +1,7 @@
 {
     "login": "Login",
     "register": "Register",
-    "forgotPassword": "Forgot Password?",
+    "forgotPassword": "Forgot Password",
     "companyName": "Company Name",
     "username": "Username",
     "email": "Email",
@@ -14,23 +14,16 @@
     "orderList": "Order List",
     "orderDetail": "Order Detail",
     "dangNhapDatHang": "Login to Order",
-     "alreadyhaveaccount": "Already have account",
-
-     
-    "Pleaseenteryouremail":"Please enter your email",
-    "SendOTP":"Send OTP",
-    "BacktoLogin":"Back to Login",
-
+    "alreadyhaveaccount": "Already have account",
+    "Pleaseenteryouremail": "Please enter your email",
+    "SendOTP": "Send OTP",
+    "BacktoLogin": "Back to Login",
     "newPassword": "New Password",
     "enterOTPandNewPassword": "Enter OTP and New Password",
     "resetPassword": "Reset Password",
-
     "successful": "Successful",
-
     "purchase_history": "Purchase History",
-    "Enter_your_order_code":"Enter your order code"
-    ,
-
+    "Enter_your_order_code": "Enter your order code",
     "order_code": "Order Code",
     "order_date": "Order Date:",
     "status": "Status:",

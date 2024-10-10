@@ -2,7 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getApiUrl } from '../screens/API';
+import { useTranslation } from 'react-i18next';
 export default function VerificationAccountScreen({ navigation }) {
+
+  const { t, i18n } = useTranslation();
+
+
   const input1Ref = useRef(null);
   const input2Ref = useRef(null);
   const input3Ref = useRef(null);
@@ -82,10 +87,10 @@ export default function VerificationAccountScreen({ navigation }) {
 
   return (
     <View>
-      <Text style={styles.textxm}>Xác minh</Text>
+      <Text style={styles.textxm}>{t("verification")}</Text>
       <View style={styles.column}>
         <Text style={styles.textnm}>{storedEmail ? `Email: ${storedEmail}` : ''}</Text>
-        <Text style={styles.textnm}>Vui lòng nhập mã xác minh của bạn</Text>
+        <Text style={styles.textnm}>{t("enter_verification_code")}</Text>
         <View style={styles.row}>
           <View style={styles.view}>
             <TextInput
@@ -129,9 +134,9 @@ export default function VerificationAccountScreen({ navigation }) {
           </View>
         </View>
         <TouchableOpacity style={styles.button} onPress={handleVerifyOTP}>
-          <Text style={styles.text}>Xác thực</Text>
+          <Text style={styles.text}>{t("submit")}</Text>
         </TouchableOpacity>
-        <Text style={styles.textnb}>Nếu bạn chưa nhận được mã, hãy gửi lại</Text>
+        <Text style={styles.textnb}>{t("resend_code_instruction")}</Text>
       </View>
     </View>
   );

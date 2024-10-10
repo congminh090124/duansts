@@ -1,8 +1,12 @@
 import React, { useRef } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function VerificationCodeScreen() {
+
+	const { t, i18n } = useTranslation();
+
+
 	// Tạo các tham chiếu cho mỗi TextInput
 	const input1Ref = useRef(null);
 	const input2Ref = useRef(null);
@@ -38,7 +42,7 @@ const retrieveEmail = async () => {
 		<View>
 			<View style={styles.textxm}>
 			<Text style={styles.textxm}>
-						{"Quên mật khẩu"}
+						{t("forgotPassword")}
 					</Text>
 			</View>
 			<View style={styles.column}>
@@ -46,7 +50,7 @@ const retrieveEmail = async () => {
 					
 				
 				<Text style={styles.textnm}>
-					{"vui lòng nhập mã xác minh của  bạn"}
+					{t("enter_verification_code")}
 				</Text>
 				<View style={styles.row}>
 					{/* TextInput đầu tiên */}
@@ -94,19 +98,19 @@ const retrieveEmail = async () => {
 					</View>
 				</View>
 				<Text style={styles.textnb}>
-					{"nếu bạn chưa nhận được mã , hãy gửi lại"}
+				{t("resend_code_instruction")}
 				</Text>
 				<TouchableOpacity style={styles.button}>
 					<Text style={styles.text}>
-						{"Gửi"}
+					{t("submit")}
 					</Text>
 				</TouchableOpacity>
 				<Text style={styles.textdc}>
-					{"Đã có tài khoản?"}
+				{t("already_have_account")}
 				</Text>
 				<TouchableOpacity style={styles.buttondk}>
 					<Text style={styles.textdk}>
-						{"Đăng ký"}
+					{t("register")}
 					</Text>
 				</TouchableOpacity>
 
