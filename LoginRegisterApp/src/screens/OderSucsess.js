@@ -4,7 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from './DropDownPickerScreen';
 const { width, height } = Dimensions.get('window');
-
+// ko  dùng
 export default function (OderSucsess) {
     const navigation = useNavigation();
    

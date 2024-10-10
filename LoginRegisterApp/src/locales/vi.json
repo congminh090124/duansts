@@ -10,6 +10,7 @@
   "confirmPassword": "Xác nhận mật khẩu",
   "orderProduct": "Đặt hàng",
   "notification": "Thông báo",
+  "Thenumbercannotbelessthan1":"số lượng không thể nhỏ hơn 1",
   "supportCustomer": "Hỗ trợ khách hàng",
   "orderList": "Danh sách đơn hàng",
   "orderDetail": "Chi tiết đơn hàng",
@@ -54,5 +55,32 @@
     "quantityUpdateError": "Lỗi khi cập nhật số lượng",
     "quantityUpdateSuccess": "Cập nhật số lượng thành công",
     "emptyCartMessage": "Giỏ hàng của bạn đang trống"
+    ,
+   " Gmail_not_found,_please_try_again":"Không tìm thấy gmail, vui lòng thử lại",
+
+
+
+  
+  "Delete confirmation": "Xác nhận xóa",
+  "Are you sure you want to delete this item?": "Bạn có chắc chắn muốn xóa sản phẩm này?",
+  "Cancel": "Hủy",
+  "Delete": "Xóa",
+  "Error": "Lỗi",
+  "User not logged in": "Người dùng chưa đăng nhập",
+  "Failed to delete item": "Không thể xóa sản phẩm",
+  "Success": "Thành công",
+  "Order successfully submitted": "Đơn hàng đã được gửi thành công",
+  "Failed to process payment": "Có lỗi xảy ra khi xử lý thanh toán",
+  "Failed with status code 500": "Yêu cầu thất bại với mã trạng thái 500",
+  "Send order": "Gửi đơn hàng",
+  "Product list in cart": "Danh sách sản phẩm trong giỏ hàng",
+  "Unit": "Đơn vị",
+  "Order date": "Ngày đặt hàng",
+
+  "next":"Đến tiếp theo",
+
+  "newpass":"Nhập mật khẩu mới",
+  "newpass1":"Nhập lại mật khẩu mới",
+  "send":"Gửi"
   }
   

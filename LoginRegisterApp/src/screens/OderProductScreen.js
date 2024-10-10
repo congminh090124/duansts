@@ -326,8 +326,10 @@ export default function OderProductScreen() {
 const styles = StyleSheet.create({
 
   donVi:{
-    padding:3,
+ 
     left: 20,
+    width:190,
+    marginLeft:-5
    
   },
   dropdown:{ padding:3,},
@@ -430,11 +432,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addToCartButton:{
- marginTop: height * 0.02,
-    backgroundColor: '#00FFFF',
-    borderRadius: 4,
-    paddingVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
+    backgroundColor: "#182EF3",
+    borderRadius: 20,
+    marginLeft:width*0.21,
+    width: width * 0.5, // 50% of screen width
+    paddingVertical: 15,
+    marginBottom: 24,
   },
   addNewButtonText: {
     color: '#fff',

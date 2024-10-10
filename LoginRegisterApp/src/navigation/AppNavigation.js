@@ -26,7 +26,7 @@ const AppNavigation = () => {
   return (
     <MenuProvider>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="VerificationCode">
+      <Stack.Navigator initialRouteName="Loginr">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 

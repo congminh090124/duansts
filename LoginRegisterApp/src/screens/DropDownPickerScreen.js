@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal ,Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
-
+import { useTranslation } from 'react-i18next';
 export default function DropDownPickerScreen() {
     const navigation = useNavigation();
     const [menuVisible, setMenuVisible] = useState(false);
-
+    const { t, i18n } = useTranslation();
     const toggleMenu = () => setMenuVisible(!menuVisible);
 
     const menuOptions = [
-        { title: 'Trang chủ', onPress: () =>navigation.navigate("DropDownPicker") },
-        { title: 'Giỏ hàng', onPress: () => navigation.navigate("ListOder") },
-        { title: 'Lịch sử mua hàng', onPress: () => navigation.navigate("OrderListCode") },
+        { title:`${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
+        { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
+        { title:  `${t('order')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Khách hàng</Text>
-                <Text style={styles.subHeaderText}>Tên người dùng ứng dụng</Text>
+                <Text style={styles.headerText}></Text>
+                <Text style={styles.subHeaderText}>Home</Text>
                 <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
                     <Icon name="menu" size={24} color="#000" />
                 </TouchableOpacity>
@@ -36,7 +36,7 @@ export default function DropDownPickerScreen() {
                 style={styles.button}
                 onPress={() => navigation.navigate('OderProduct')}
             >
-                <Text style={styles.buttonText}>Đến tiếp theo</Text>
+                <Text style={styles.buttonText}>Next </Text>
             </TouchableOpacity>
 
             <Modal

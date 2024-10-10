@@ -12,7 +12,7 @@ export default function ConfirmPassScreen() {
   const { t, i18n } = useTranslation();
   const handleResetPassword = async () => {
     if (!email) {
-      Alert.alert('Lỗi', 'Không tìm thấy email. Vui lòng thử lại.');
+      Alert.alert((`${t('error')}`), (`${t('Gmail_not_found,_please_try_again')}`));
       return;
     }
 
@@ -38,14 +38,14 @@ export default function ConfirmPassScreen() {
       }
 
       if (response.ok) {
-        Alert.alert('Thành công', 'Mật khẩu đã được đặt lại thành công');
+        Alert.alert((`${t('ssuccess')}`), );
         navigation.navigate('Login');
       } else {
-        throw new Error(data.message || 'Có lỗi xảy ra');
+        throw new Error(data.message || (`${t('error')}`));
       }
     } catch (error) {
       console.error('Reset password error:', error);
-      Alert.alert('Lỗi', error.message);
+      Alert.alert((`${t('error')}`), error.message);
     }
   };
 

@@ -37,7 +37,7 @@ export default function ListOrderScreen() {
 
     const updateQuantity = async (itemId, newQuantity) => {
         if (newQuantity < 1) {
-            Alert.alert('Thông báo', 'Số lượng không thể nhỏ hơn 1');
+            Alert.alert((`${t('notification')}`), (`${t('The number cannot be less than 1')}`));
             return;
         }
         try {
@@ -55,17 +55,17 @@ export default function ListOrderScreen() {
 
     const handleDeleteItem = async (itemId) => {
         Alert.alert(
-            'Xác nhận xóa',
-            'Bạn có chắc chắn muốn xóa sản phẩm này?',
+            (`${t('Delete confirmation')}`),
+            (`${t('Are you sure you want to delete this item?')}`),
             [
-                { text: 'Hủy', style: 'cancel' },
+                { text: (`${t('Cancel')}`), style: 'cancel' },
                 {
-                    text: 'Xóa',
+                    text: (`${t('Delete')}`),
                     onPress: async () => {
                         try {
                             const userId = await AsyncStorage.getItem('userId');
                             if (!userId) {
-                                Alert.alert('Lỗi', 'Người dùng chưa đăng nhập');
+                                Alert.alert((`${t('Error')}`), (`${t('User not logged in')}`));
                                 return;
                             }
     
@@ -81,8 +81,8 @@ export default function ListOrderScreen() {
                             await axios.delete (getApiUrl(`/api/cart/${itemId}`), config);
                             fetchCartItems();
                         } catch (error) {
-                            console.error('Lỗi khi xóa sản phẩm:', error);
-                            Alert.alert('Lỗi', 'Không thể xóa sản phẩm');
+                            console.error((`${t('Failed to delete item')}`), error);
+                            Alert.alert((`${t('Error')}`), (`${t('Failed to delete item')}`));
                         }
                     },
                 },
@@ -95,27 +95,27 @@ export default function ListOrderScreen() {
         try {
             const userId = await AsyncStorage.getItem('userId');
             if (!userId) {
-                Alert.alert('Lỗi', 'Không tìm thấy người dùng');
+                Alert.alert((`${t('Error')}`), (`${t('User not logged in')}`));
                 return;
             }
 
-            console.log('Dữ liệu thanh toán:', { userId, cartItems, tinhTrang: 'Thành Công' });
+            console.log('Dữ liệu thanh toán:', { userId, cartItems, tinhTrang: (`${t('success')}`) });
 
             const response = await axios.post(getApiUrl('/api/hoaDon/createInvoice'), {
                 userId,
                 cartItems,
-                tinhTrang: 'Thành Công',
+                tinhTrang: (`${t('success')}`),
             });
 
             if (response.status === 201) {
-                Alert.alert('Thành công', 'Đơn hàng đã được gửi thành công');
+                Alert.alert(`${t('success')}`, `${t('checkoutSuccess')}`);
                 fetchCartItems(); 
             } else {
-                Alert.alert('Lỗi', 'Có lỗi xảy ra khi xử lý thanh toán');
+                Alert.alert(`${t('Error')}`, `${t('checkoutError')}`);
             }
         } catch (error) {
-            console.error('Lỗi trong quá trình thanh toán:', error);
-            Alert.alert('Lỗi', 'Yêu cầu thất bại với mã trạng thái 500');
+            console.error(`${t('Failed to process payment')}`, error);
+            Alert.alert(`${t('Error')}`, `${t('Failed with status code 500')}`);
         }
     };
 
