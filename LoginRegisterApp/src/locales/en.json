@@ -10,6 +10,7 @@
     "confirmPassword": "Confirm Password",
     "orderProduct": "Order Product",
     "notification": "Notification",
+    "Thenumbercannotbelessthan1":"The number cannot be less than 1",
     "supportCustomer": "Support Customer",
     "orderList": "Order List",
     "orderDetail": "Order Detail",

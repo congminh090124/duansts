@@ -10,6 +10,7 @@
   "confirmPassword": "Xác nhận mật khẩu",
   "orderProduct": "Đặt hàng",
   "notification": "Thông báo",
+  "Thenumbercannotbelessthan1":"số lượng không thể nhỏ hơn 1",
   "supportCustomer": "Hỗ trợ khách hàng",
   "orderList": "Danh sách đơn hàng",
   "orderDetail": "Chi tiết đơn hàng",
@@ -27,8 +28,10 @@
   "order_code": "Mã đơn :",
   "order_date": "Ngày đặt :",
   "status": "Tình trạng : ",
-  "customer_name": "Tên khách hàng :",
-  "nameproduct": "Tên",
+  "customer_name": "Tên khách hàng :"
+  ,
+
+   "nameproduct": "Tên",
   "quantity": "Số lượng",
   "customer_service": "Dịch vụ khách hàng",
   "website": "Trang web",

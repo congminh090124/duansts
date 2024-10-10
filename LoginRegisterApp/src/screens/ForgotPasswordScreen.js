@@ -22,13 +22,13 @@ export default function ForgotPasswordScreen() {
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert ('Thành công', data.message);
+        Alert.alert (`${t('success')}`, data.message);
 		navigation.navigate('ConfirmPass', { email: email });
       } else {
         throw new Error(data.message || 'Có lỗi xảy ra');
       }
     } catch (error) {
-      Alert.alert('Lỗi', error.message);
+      Alert.alert((`${t('error')}`), error.message);
     }
   };
 
