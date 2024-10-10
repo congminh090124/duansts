@@ -1,7 +1,7 @@
 {
     "login": "Login",
     "register": "Register",
-    "forgotPassword": "Forgot Password?",
+    "forgotPassword": "Forgot Password",
     "companyName": "Company Name",
     "username": "Username",
     "email": "Email",
@@ -14,30 +14,43 @@
     "orderList": "Order List",
     "orderDetail": "Order Detail",
     "dangNhapDatHang": "Login to Order",
-     "alreadyhaveaccount": "Already have account",
-
-     
-    "Pleaseenteryouremail":"Please enter your email",
-    "SendOTP":"Send OTP",
-    "BacktoLogin":"Back to Login",
-
+    "alreadyhaveaccount": "Already have account",
+    "Pleaseenteryouremail": "Please enter your email",
+    "SendOTP": "Send OTP",
+    "BacktoLogin": "Back to Login",
     "newPassword": "New Password",
     "enterOTPandNewPassword": "Enter OTP and New Password",
     "resetPassword": "Reset Password",
-
     "successful": "Successful",
-
     "purchase_history": "Purchase History",
-    "Enter_your_order_code":"Enter your order code"
-    ,
-
+    "Enter_your_order_code": "Enter your order code",
     "order_code": "Order Code",
     "order_date": "Order Date:",
     "status": "Status:",
-    "customer_name": "Customer Name:"
-    ,
-
-     "nameproduct": "Name",
-  "quantity": "Quantity"
-  }
+    "customer_name": "Customer Name:",
+    "nameproduct": "Name",
+    "quantity": "Quantity",
+    "customer_service": "Customer servive",
+    "website": "Website",
+    "faq": "FAQ",
+    "other": "OTHER",
+    "support":"support",
+    "support_customer": "Support Customer",
+    "overview": "Overview",
+    "account": "Account",
+    "payment": "Payment",
+    "services": "Services",
+    "manage_notifications": "How do I manage my notifications?",
+  "manage_notifications_detail": "To manage notifications, go to 'Settings', select 'Notification S'.",
+  "start_meditation": "How can I start a guided meditation session?",
+  "join_support_group": "How do I join the support group?",
+  "data_safety": "Is my data safe and private?",
+   "support_related_questions": "Support related questions",
+   "available_payment_methods": "What payment methods are available?",
+   "verification": "Verification",
+  "enter_verification_code": "Please enter your verification code",
+  "resend_code_instruction": "If you have not received the code, please resend",
+  "submit": "Submit",
+  "already_have_account": "Already have an account?"
   
+}

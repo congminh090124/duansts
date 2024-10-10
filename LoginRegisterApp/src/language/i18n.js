@@ -12,7 +12,7 @@ i18n
       en: { translation: enTranslations },
       vi: { translation: viTranslations }
     },
-    lng: 'en', // default language
+    lng: 'vi', // default language
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false

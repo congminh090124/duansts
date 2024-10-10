@@ -2,10 +2,12 @@ import * as React from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-
+import { useTranslation } from 'react-i18next';
 import FaqScreen from '../screens/FaqScreen';
 import SupportChanelScreeen from './SupportChanelScreen';
+
+
+
 // Tạo các Tab Component
 function FaqScreenComponent() {
 	return (
@@ -35,10 +37,12 @@ function SupportChanelScreeenComponent() {
 const Tab = createMaterialTopTabNavigator();
 
 function MyTabs() {
+	const { t, i18n } = useTranslation();
+
 	return (
 		<View style={styles.wrapper}>
 		{/* Text nằm trên các tab */}
-		<Text style={styles.headerText}>Hỗ trợ khách hàng</Text>
+		<Text style={styles.headerText}>{t("support_customer")}</Text>
 		
 		{/* Tab Navigator nằm bên dưới Text */}
 		<Tab.Navigator
@@ -46,8 +50,8 @@ function MyTabs() {
 				tabBarIndicatorStyle: { backgroundColor: '#000' },  // Đổi màu của thanh indicator
 			}}
 		>
-			<Tab.Screen name="Câu hỏi thường gặp" component={FaqScreenComponent} />
-			<Tab.Screen name="Khác" component={SupportChanelScreeenComponent} />
+			<Tab.Screen name={t("faq")} component={FaqScreenComponent} />
+			<Tab.Screen name={t("other")} component={SupportChanelScreeenComponent} />
 		</Tab.Navigator>
 	</View>
 	);
