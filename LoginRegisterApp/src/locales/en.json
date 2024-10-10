@@ -90,7 +90,10 @@
   "order_completed_button": "Order has been completed",
    "add_to_cart_button": "Add to cart",
    "home": "Home",
+   "logout": "Logout",
    "cart": "Cart",
-   "logout": "Logout"
+   "product_list": "Product list in cart",
+   "date_placeholder": "10/10/2024",
+   "submit_order_button": "Submit Order"
+ }
   
-}

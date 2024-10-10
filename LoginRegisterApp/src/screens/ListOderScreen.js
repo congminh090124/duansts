@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Entypo';
+
 import { getApiUrl } from '../screens/API';
 const { width, height } = Dimensions.get('window');
 
@@ -121,12 +122,12 @@ export default function ListOrderScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textf}>Giỏ hàng</Text>
+            <Text style={styles.textf}>{t('cart')}</Text>
             <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
                     <Icon name="menu" size={24} color="#000" />
                 </TouchableOpacity>
             <View>
-                <Text style={styles.text1}>Danh sách sản phẩm trong giỏ hàng</Text>
+                <Text style={styles.text1}>{t('product_list')}</Text>
             </View>
             <View style={styles.viewday}>
                 <Text style={styles.textday}>{new Date().toLocaleDateString()}</Text>
@@ -188,7 +189,7 @@ export default function ListOrderScreen() {
 
             <View style={styles.viewbutton}>
                 <TouchableOpacity style={styles.viewodcf} onPress={handleCheckout}>
-                    <Text style={styles.textodcf}>Gửi đơn hàng</Text>
+                    <Text style={styles.textodcf}>{t('submit_order_button')}</Text>
                 </TouchableOpacity>
             </View>
         </View>

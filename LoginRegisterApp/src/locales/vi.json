@@ -92,7 +92,10 @@
   "order_completed_button": "Đơn hàng đã hoàn tất",
   "add_to_cart_button": "Thêm vào giỏ hàng",
   "home": "Trang chủ",
+  "logout": "Đăng xuất",
   "cart": "Giỏ hàng",
-  "logout": "Đăng xuất"
+  "product_list": "Danh sách sản phẩm trong giỏ hàng",
+  "date_placeholder": "10/10/2024",
+  "submit_order_button": "Gửi đơn hàng"
 
 }
