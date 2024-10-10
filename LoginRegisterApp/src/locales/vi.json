@@ -38,6 +38,28 @@
   ,
 
    "nameproduct": "Tên",
-  "quantity": "Số lượng"
+  "quantity": "Số lượng",
+
+
+
+  "cart": "Giỏ hàng",
+    "home": "Trang chủ",
+    "order": "Lịch sử mua hàng",
+    "orderList1": "Danh sách sản phẩm trong giỏ hàng",
+    "date": "Ngày",
+    "sendOrder": "Gửi đơn hàng",
+    "quantity1": "Số lượng",
+    "delete": "Xóa",
+    "confirmDelete": "Xác nhận xóa",
+    "cancel": "Hủy",
+    "deleteProduct": "Bạn có chắc chắn muốn xóa sản phẩm này?",
+    "success": "Thành công",
+    "error": "Lỗi",
+    "checkoutSuccess": "Đơn hàng đã được gửi thành công",
+    "checkoutError": "Có lỗi xảy ra khi xử lý thanh toán",
+    "loginError": "Không tìm thấy người dùng",
+    "quantityUpdateError": "Lỗi khi cập nhật số lượng",
+    "quantityUpdateSuccess": "Cập nhật số lượng thành công",
+    "emptyCartMessage": "Giỏ hàng của bạn đang trống"
   }
   

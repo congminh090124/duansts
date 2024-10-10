@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert ,Modal} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Entypo';
 import { getApiUrl } from '../screens/API';
 const { width, height } = Dimensions.get('window');
 
 export default function ListOrderScreen() {
+     const { t, i18n } = useTranslation();
     const navigation = useNavigation();
     const [cartItems, setCartItems] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
@@ -15,9 +17,9 @@ export default function ListOrderScreen() {
     const toggleMenu = () => setMenuVisible(!menuVisible);
 
     const menuOptions = [
-        { title: 'Trang chủ', onPress: () =>navigation.navigate("DropDownPicker") },
-        { title: 'Giỏ hàng', onPress: () => navigation.navigate("ListOder") },
-        { title: 'Lịch sử mua hàng', onPress: () => navigation.navigate("OrderListCode") },
+        { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
+        { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
+        { title: `${t('order')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
     useEffect(() => {
         fetchCartItems();
@@ -28,8 +30,8 @@ export default function ListOrderScreen() {
             const response = await axios.get(getApiUrl('/api/cart/'));
             setCartItems(response.data);
         } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu giỏ hàng:', error);
-            Alert.alert('Lỗi', 'Không thể lấy dữ liệu giỏ hàng');
+            console.error(`${t('error')}`, error);
+            Alert.alert(`${t('error')}`);
         }
     };
 
@@ -46,8 +48,8 @@ export default function ListOrderScreen() {
                 fetchCartItems(); // Làm mới giỏ hàng
             }
         } catch (error) {
-            console.error('Lỗi khi cập nhật số lượng:', error);
-            Alert.alert('Lỗi', 'Không thể cập nhật số lượng');
+            console.error(`${t('quantityUpdateError')}`, error);
+            Alert.alert((`${t('error')}`), );
         }
     };
 

@@ -38,6 +38,27 @@
     ,
 
      "nameproduct": "Name",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+
+
+  "cart": "Cart",
+  "home": "Home",
+  "order": "Order History",
+  "orderList1": "Product list in cart",
+  "date": "Date",
+  "sendOrder": "Submit Order",
+  "quantity1": "Quantity",
+  "delete": "Delete",
+  "confirmDelete": "Confirm delete",
+  "cancel": "Cancel",
+  "deleteProduct": "Are you sure you want to delete this product?",
+  "success": "Success",
+  "error": "Error",
+  "checkoutSuccess": "Your order has been successfully submitted",
+  "checkoutError": "An error occurred while processing payment",
+  "loginError": "User not found",
+  "quantityUpdateError": "Error updating quantity",
+  "quantityUpdateSuccess": "Quantity updated successfully",
+  "emptyCartMessage": "Your cart is empty"
   }
   
