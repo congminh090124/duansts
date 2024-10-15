@@ -3,12 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Entypo';
-
-import { getApiUrl } from '../screens/API';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
+// import { getApiUrl } from '../screens/API';
 const { width, height } = Dimensions.get('window');
 import API_URLS from '../api';
 export default function ListOrderScreen() {
-     const { t, i18n } = useTranslation();
+    const { language } = useLanguage();
+    const t = (key) => translations[language][key];
     const navigation = useNavigation();
     const [cartItems, setCartItems] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
@@ -18,7 +20,7 @@ export default function ListOrderScreen() {
     const menuOptions = [
         { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
         { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-        { title: `${t('order')}`, onPress: () => navigation.navigate("OrderListCode") },
+        { title: `${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
     useEffect(() => {
         fetchCartItems();
@@ -40,7 +42,7 @@ export default function ListOrderScreen() {
 
     const updateQuantity = async (itemId, newQuantity) => {
         if (newQuantity < 1) {
-            Alert.alert((`${t('notification')}`), (`${t('The number cannot be less than 1')}`));
+            Alert.alert((`${t('notification')}`), (`${t('Thenumbercannotbelessthan1')}`));
             return;
         }
         try {

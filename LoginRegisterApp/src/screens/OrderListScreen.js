@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_URLS from '../api';
-
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function OrderListScreen() {
-    const { t, i18n } = useTranslation();
+    const { language } = useLanguage();
+    const t = (key) => translations[language][key];
     const [invoices, setInvoices] = useState([]);
     const [selectedInvoice, setSelectedInvoice] = useState(null);
 

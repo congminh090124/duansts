@@ -27,7 +27,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: 'English', value: 'en' },
@@ -72,7 +72,7 @@ export default function LoginScreen() {
       if (response.ok && data.success) {
         await AsyncStorage.setItem('userId', data.userId);
         Alert.alert(t('success'), t('loginSuccess'));
-        navigation.navigate('Home'); // Assuming 'Home' is your main screen after login
+        navigation.navigate('DropDownPicker'); // Assuming 'Home' is your main screen after login
       } else {
         Alert.alert(t('error'), t('loginFailed'));
       }
@@ -85,7 +85,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
@@ -93,7 +93,7 @@ export default function LoginScreen() {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Image source={require('../../assets/Logo.png')} style={styles.logo} />
           <Text style={styles.title}>{t('loginTitle')}</Text>
-          
+
           <Text style={styles.label}>{t('username')}</Text>
           <TextInput
             style={styles.input}
@@ -113,9 +113,9 @@ export default function LoginScreen() {
               placeholder={t('passwordPlaceholder')}
             />
             <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-              <Ionicons 
-                name={showPassword ? 'eye-off' : 'eye'} 
-                size={24} 
+              <Ionicons
+                name={showPassword ? 'eye-off' : 'eye'}
+                size={24}
                 color="#888"
               />
             </TouchableOpacity>
@@ -125,8 +125,8 @@ export default function LoginScreen() {
             <Text style={styles.forgotPassword}>{t('forgotPassword')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[styles.loginButton, loading && styles.disabledButton]} 
+          <TouchableOpacity
+            style={[styles.loginButton, loading && styles.disabledButton]}
             onPress={handleLogin}
             disabled={loading}
           >
@@ -143,19 +143,19 @@ export default function LoginScreen() {
         </ScrollView>
 
         <View style={styles.languagePickerContainer}>
-        <DropDownPicker
-  open={open}
-  value={language} // giá trị hiện tại của ngôn ngữ
-  items={items}
-  setOpen={setOpen}
-  setValue={(callback) => {
-    const selectedValue = callback(language); // lấy giá trị ngôn ngữ mới
-    handleLanguageChange(selectedValue); // cập nhật ngôn ngữ
-  }}
-  setItems={setItems}
-  containerStyle={styles.languagePicker}
-  textStyle={styles.languagePickerText}
-/>
+          <DropDownPicker
+            open={open}
+            value={language} // giá trị hiện tại của ngôn ngữ
+            items={items}
+            setOpen={setOpen}
+            setValue={(callback) => {
+              const selectedValue = callback(language); // lấy giá trị ngôn ngữ mới
+              handleLanguageChange(selectedValue); // cập nhật ngôn ngữ
+            }}
+            setItems={setItems}
+            containerStyle={styles.languagePicker}
+            textStyle={styles.languagePickerText}
+          />
 
         </View>
       </View>
