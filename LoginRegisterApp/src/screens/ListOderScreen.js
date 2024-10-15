@@ -3,12 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Entypo';
-
-import { getApiUrl } from '../screens/API';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
+// import { getApiUrl } from '../screens/API';
 const { width, height } = Dimensions.get('window');
 import API_URLS from '../api';
 export default function ListOrderScreen() {
-     const { t, i18n } = useTranslation();
+    const { language } = useLanguage();
+    const t = (key) => translations[language][key];
     const navigation = useNavigation();
     const [cartItems, setCartItems] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);

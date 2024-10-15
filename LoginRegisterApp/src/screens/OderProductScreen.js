@@ -4,9 +4,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get('window');
-import { getApiUrl } from '../screens/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_URLS from '../api';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 // Giả định API để tìm kiếm sản phẩm
 const searchProducts = async (keyword) => {
   try {
@@ -104,7 +105,8 @@ const addToCart = async (productId, quantity, unit) => {
 
 export default function OderProductScreen() {
 
-  const { t, i18n } = useTranslation();
+  const { language } = useLanguage();
+  const t = (key) => translations[language][key];
 // navigation
   const navigation = useNavigation();
   // menu

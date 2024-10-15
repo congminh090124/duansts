@@ -9,7 +9,7 @@ export default function DropDownPickerScreen() {
     const navigation = useNavigation();
     const [menuVisible, setMenuVisible] = useState(false);
     
-    const { language, changeLanguage } = useLanguage();
+    const { language, } = useLanguage();
     const toggleMenu = () => setMenuVisible(!menuVisible);
     
     const t = (key) => translations[language][key];
