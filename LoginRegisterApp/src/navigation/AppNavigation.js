@@ -16,7 +16,7 @@ import OrderDetailScreen from '../screens/OrderDetailScreen';
 import SupportCustomerScreen from '../screens/SupportCustomerScreen';
 import ListOderScreen from '../screens/ListOderScreen';
 import OderSucsess from '../screens/OderSucsess';
-import i18n from '../language/i18n';
+
 import { MenuProvider } from 'react-native-popup-menu'; // Import MenuProvider
 const Stack = createStackNavigator();
 

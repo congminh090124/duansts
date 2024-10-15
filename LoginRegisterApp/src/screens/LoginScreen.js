@@ -1,33 +1,58 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons'; // Assuming you're using Expo
 import API_URLS from '../api';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
+
 export default function LoginScreen() {
-  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
+  const { language, changeLanguage } = useLanguage();
 
-  const [username, setUsername] = useState(''); // Thêm state cho username
-  const [password, setPassword] = useState(''); // Thêm state cho password
-  const [loading, setLoading] = useState(false); // State để quản lý khi đăng nhập
-
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(i18n.language);
   const [items, setItems] = useState([
     { label: 'English', value: 'en' },
-    { label: 'Vietnamese', value: 'vi' }
+    { label: 'Tiếng Việt', value: 'vi' }
   ]);
 
-  const handleLanguageChange = (lang) => {
-    i18n.changeLanguage(lang);
-    setValue(lang);
+  const t = (key) => translations[language][key];
+
+  useEffect(() => {
+    // You can add any additional setup logic here if needed
+  }, []);
+
+  const handleLanguageChange = (value) => {
+    if (typeof value === 'string') {
+      changeLanguage(value);
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleLogin = async () => {
     if (!username || !password) {
-      Alert.alert(t('Error'), t('Please enter both username and password.'));
+      Alert.alert(t('error'), t('errorMessage'));
       return;
     }
 
@@ -45,62 +70,96 @@ export default function LoginScreen() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Đăng nhập thành công
         await AsyncStorage.setItem('userId', data.userId);
-        Alert.alert(t('Success'), t('Login successful!'));
-        navigation.navigate('DropDownPicker'); // Chuyển đến màn hình Home sau khi đăng nhập thành công
+        Alert.alert(t('success'), t('loginSuccess'));
+        navigation.navigate('Home'); // Assuming 'Home' is your main screen after login
       } else {
-        // Xử lý lỗi đăng nhập
-        Alert.alert(t('Error'), data.error || t('Login failed.'));
+        Alert.alert(t('error'), t('loginFailed'));
       }
     } catch (error) {
-      Alert.alert(t('Error'), t('An error occurred. Please try again.'));
+      console.error('Login error:', error);
+      Alert.alert(t('error'), t('errorOccurred'));
     }
 
     setLoading(false);
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={require('../../assets/Logo.png')} style={styles.logo} />
-      <Text style={styles.title}>{t('Đăng nhập đặt hàng')}</Text>
-      
-      <Text style={styles.label}>{t('ID')}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder=""
-        value={username}
-        onChangeText={setUsername}
-      />
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <View style={styles.contentContainer}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Image source={require('../../assets/Logo.png')} style={styles.logo} />
+          <Text style={styles.title}>{t('loginTitle')}</Text>
+          
+          <Text style={styles.label}>{t('username')}</Text>
+          <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={setUsername}
+            placeholder={t('usernamePlaceholder')}
+            autoCapitalize="none"
+          />
 
-      <Text style={styles.label}>{t('Mật khẩu')}</Text>
-      <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.passwordInput}
-          placeholder=""
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TouchableOpacity style={styles.eyeIcon}>
-          {/* Add eye icon here */}
-        </TouchableOpacity>
+          <Text style={styles.label}>{t('password')}</Text>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+              placeholder={t('passwordPlaceholder')}
+            />
+            <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
+              <Ionicons 
+                name={showPassword ? 'eye-off' : 'eye'} 
+                size={24} 
+                color="#888"
+              />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text style={styles.forgotPassword}>{t('forgotPassword')}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.loginButton, loading && styles.disabledButton]} 
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            <Text style={styles.loginButtonText}>
+              {loading ? t('loggingIn') : t('login')}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.registerText}>{t('register')}</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.footerText}>https://www.riatec-th.co.jp</Text>
+        </ScrollView>
+
+        <View style={styles.languagePickerContainer}>
+        <DropDownPicker
+  open={open}
+  value={language} // giá trị hiện tại của ngôn ngữ
+  items={items}
+  setOpen={setOpen}
+  setValue={(callback) => {
+    const selectedValue = callback(language); // lấy giá trị ngôn ngữ mới
+    handleLanguageChange(selectedValue); // cập nhật ngôn ngữ
+  }}
+  setItems={setItems}
+  containerStyle={styles.languagePicker}
+  textStyle={styles.languagePickerText}
+/>
+
+        </View>
       </View>
-
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.forgotPassword}>{t('Bạn quên mật khẩu?')}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>{t('Đăng nhập')}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.registerText}>{t('Đã có tài khoản? Đăng ký thành viên')}</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.footerText}>https://www.riatec-th.co.jp</Text>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -108,17 +167,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flexGrow: 1,
     padding: 20,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
     width: "90%",
-    height: "10%",
-    alignSelf: 'center',
-    marginTop: 70,
+    height: 100,
+    resizeMode: 'contain',
+    marginBottom: 30,
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
     marginBottom: 30,
@@ -170,6 +233,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  disabledButton: {
+    backgroundColor: '#8888FF',
+  },
   loginButtonText: {
     color: '#fff',
     fontSize: 18,
@@ -179,9 +245,19 @@ const styles = StyleSheet.create({
     color: '#0000FF',
     marginBottom: 20,
   },
+  languagePickerContainer: {
+    zIndex: 1000,
+    width: '100%',
+    marginBottom: 20,
+  },
+  languagePicker: {
+    width: '100%',
+  },
+  languagePickerText: {
+    fontSize: 16,
+  },
   footerText: {
-    position: 'absolute',
-    bottom: 20,
     color: '#888',
+    marginTop: 20,
   },
 });

@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import API_URLS from '../api';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function ConfirmPassScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const { email } = route.params || {};
   const [otp, setOTP] = useState('');
   const [newPassword, setNewPassword] = useState('');
-
+  const { language } = useLanguage();
+  const t = (key) => translations[language][key];
   const handleResetPassword = async () => {
     if (!email) {
       Alert.alert('Lỗi', 'Không tìm thấy email. Vui lòng thử lại.');
