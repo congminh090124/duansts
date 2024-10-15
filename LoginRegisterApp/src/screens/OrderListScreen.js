@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getApiUrl } from '../screens/API';
-import { useTranslation } from 'react-i18next';
+import API_URLS from '../api';
+
 export default function OrderListScreen() {
     const { t, i18n } = useTranslation();
     const [invoices, setInvoices] = useState([]);
@@ -11,13 +10,32 @@ export default function OrderListScreen() {
 
     useEffect(() => {
         const fetchInvoices = async () => {
-            const userId = await AsyncStorage.getItem('userId');
             try {
-                const response = await axios.get(getApiUrl(`/api/hoaDon/showInvoice/${userId}`));
-                setInvoices(response.data);
+                const userId = await AsyncStorage.getItem('userId');
+                if (!userId) {
+                    throw new Error('User ID not found');
+                }
+
+                // console.log('Fetching invoices for user:', userId);
+                const response = await fetch(API_URLS.SHOW_INVOICE(userId), {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Thêm header xác thực nếu cần
+                        // 'Authorization': `Bearer ${await AsyncStorage.getItem('userToken')}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                // console.log('Invoices data:', data);
+                setInvoices(data);
             } catch (error) {
                 console.error('Error fetching invoices:', error);
-                Alert.alert('Error', 'Unable to fetch invoices');
+                Alert.alert('Lỗi', 'Không thể lấy danh sách hóa đơn. Vui lòng thử lại sau.');
             }
         };
 
@@ -26,17 +44,38 @@ export default function OrderListScreen() {
 
     const handleInvoiceDetail = async (invoiceId) => {
         if (selectedInvoice && selectedInvoice._id === invoiceId) {
-            // Nếu hóa đơn đã được chọn, thu lại chi tiết hóa đơn
             setSelectedInvoice(null);
         } else {
-            // Nếu hóa đơn chưa được chọn, hiển thị chi tiết hóa đơn
             try {
-                const response = await axios.get(`https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/showCTHoaDon/${invoiceId}`);
-                const invoiceDetail = response.data;
+                console.log('Đang lấy chi tiết hóa đơn cho ID:', invoiceId);
+                
+                // Lấy token từ AsyncStorage
+                const userToken = await AsyncStorage.getItem('userToken');
+                
+                const response = await fetch(API_URLS.SHOW_INVOICE_DETAIL(invoiceId), {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userToken}`,
+                    },
+                });
+    
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Phản hồi lỗi:', response.status, errorText);
+                    throw new Error(`Lỗi HTTP! Trạng thái: ${response.status}`);
+                }
+    
+                const invoiceDetail = await response.json();
+                // console.log('Chi tiết hóa đơn:', invoiceDetail);
                 setSelectedInvoice(invoiceDetail);
             } catch (error) {
-                console.error('Error fetching invoice detail:', error);
-                Alert.alert('Error', 'Unable to fetch invoice detail');
+                console.error('Lỗi khi lấy chi tiết hóa đơn:', error);
+                if (error.message.includes('Network request failed')) {
+                    Alert.alert('Lỗi Kết Nối', 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng và thử lại.');
+                } else {
+                    Alert.alert('Lỗi', 'Không thể lấy chi tiết hóa đơn. Vui lòng thử lại sau.');
+                }
             }
         }
     };

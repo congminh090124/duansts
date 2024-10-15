@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getApiUrl } from '../screens/API';
-import { useTranslation } from 'react-i18next';
+import API_URLS from '../api';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function ConfirmPassScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const { email } = route.params || {};
   const [otp, setOTP] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const { t, i18n } = useTranslation();
+  const { language } = useLanguage();
+  const t = (key) => translations[language][key];
   const handleResetPassword = async () => {
     if (!email) {
       Alert.alert((`${t('error')}`), (`${t('Gmail_not_found,_please_try_again')}`));
       return;
     }
-
     try {
-      const response = await fetch(getApiUrl('/api/auth/resetpass'), {
+      const response = await fetch(API_URLS.RESET_PASSWORD, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

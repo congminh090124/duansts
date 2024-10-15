@@ -1,40 +1,65 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getApiUrl } from '../screens/API';
+import { Ionicons } from '@expo/vector-icons'; // Assuming you're using Expo
+import API_URLS from '../api';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
+
 export default function LoginScreen() {
-  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
+  const { language, changeLanguage } = useLanguage();
 
-  const [username, setUsername] = useState(''); // Thêm state cho username
-  const [password, setPassword] = useState(''); // Thêm state cho password
-  const [loading, setLoading] = useState(false); // State để quản lý khi đăng nhập
-
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(i18n.language);
   const [items, setItems] = useState([
     { label: 'English', value: 'en' },
-    { label: 'Vietnamese', value: 'vi' }
+    { label: 'Tiếng Việt', value: 'vi' }
   ]);
 
-  const handleLanguageChange = (lang) => {
-    i18n.changeLanguage(lang);
-    setValue(lang);
+  const t = (key) => translations[language][key];
+
+  useEffect(() => {
+    // You can add any additional setup logic here if needed
+  }, []);
+
+  const handleLanguageChange = (value) => {
+    if (typeof value === 'string') {
+      changeLanguage(value);
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleLogin = async () => {
     if (!username || !password) {
-      Alert.alert(t('Error'), t('Please enter both username and password.'));
+      Alert.alert(t('error'), t('errorMessage'));
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch(getApiUrl('/api/auth/login'), {
+      const response = await fetch(API_URLS.LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,139 +70,194 @@ export default function LoginScreen() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Đăng nhập thành công
         await AsyncStorage.setItem('userId', data.userId);
-        Alert.alert(t('Success'), t('Login successful!'));
-        navigation.navigate('DropDownPicker'); // Chuyển đến màn hình Home sau khi đăng nhập thành công
+        Alert.alert(t('success'), t('loginSuccess'));
+        navigation.navigate('Home'); // Assuming 'Home' is your main screen after login
       } else {
-        // Xử lý lỗi đăng nhập
-        Alert.alert(t('Error'), data.error || t('Login failed.'));
+        Alert.alert(t('error'), t('loginFailed'));
       }
     } catch (error) {
-      Alert.alert(t('Error'), t('An error occurred. Please try again.'));
+      console.error('Login error:', error);
+      Alert.alert(t('error'), t('errorOccurred'));
     }
 
     setLoading(false);
   };
 
   return (
-    <View style={styles.container}>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        onChangeValue={handleLanguageChange}
-        containerStyle={styles.dropdownContainer}
-        style={styles.dropdown}
-        dropDownStyle={styles.dropdown}
-      />
-      <Image source={require('../../assets/Logo.png')} style={styles.logo} />
-      <Text style={styles.textdangnhap}>{t('login')}</Text>
-      
-      <Text style={styles.textID}>{t('ID')}</Text>
-      <TextInput
-        style={styles.box}
-        placeholder=""
-        value={username}
-        onChangeText={setUsername} // Cập nhật username khi nhập
-      />
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <View style={styles.contentContainer}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Image source={require('../../assets/Logo.png')} style={styles.logo} />
+          <Text style={styles.title}>{t('loginTitle')}</Text>
+          
+          <Text style={styles.label}>{t('username')}</Text>
+          <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={setUsername}
+            placeholder={t('usernamePlaceholder')}
+            autoCapitalize="none"
+          />
 
-      <Text style={styles.textID}>{t('password')}</Text>
-      <TextInput
-        style={styles.box}
-        placeholder=""
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword} // Cập nhật password khi nhập
-      />
+          <Text style={styles.label}>{t('password')}</Text>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+              placeholder={t('passwordPlaceholder')}
+            />
+            <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
+              <Ionicons 
+                name={showPassword ? 'eye-off' : 'eye'} 
+                size={24} 
+                color="#888"
+              />
+            </TouchableOpacity>
+          </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.textqmk}>{t('forgotPassword')}</Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text style={styles.forgotPassword}>{t('forgotPassword')}</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
-        <Text style={styles.text}>{loading ? t('Logging in...') : t('login')}</Text>
-      </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.loginButton, loading && styles.disabledButton]} 
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            <Text style={styles.loginButtonText}>
+              {loading ? t('loggingIn') : t('login')}
+            </Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.textdktk}>{t('register')}</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.registerText}>{t('register')}</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.footerText}>https://www.riatec-th.co.jp</Text>
+        </ScrollView>
+
+        <View style={styles.languagePickerContainer}>
+        <DropDownPicker
+  open={open}
+  value={language} // giá trị hiện tại của ngôn ngữ
+  items={items}
+  setOpen={setOpen}
+  setValue={(callback) => {
+    const selectedValue = callback(language); // lấy giá trị ngôn ngữ mới
+    handleLanguageChange(selectedValue); // cập nhật ngôn ngữ
+  }}
+  setItems={setItems}
+  containerStyle={styles.languagePicker}
+  textStyle={styles.languagePickerText}
+/>
+
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
-    width: 285,
-    height: 70,
-    marginTop: 67,
-    marginBottom: 78,
-    marginHorizontal: 67,
-    alignSelf: 'center',
-  },
-  textdangnhap: {
-    color: "#000C7E",
-    fontSize: 28,
-    fontWeight: "bold",
+    width: "90%",
+    height: 100,
+    resizeMode: 'contain',
     marginBottom: 30,
-    marginLeft: 69,
   },
-  box: {
-    height: 44,
-    backgroundColor: "#FFFFFF",
-    borderColor: "#8A8A8A",
-    borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 20,
-    marginHorizontal: 16,
-    paddingHorizontal: 10,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 30,
   },
-  textID: {
-    color: "#262626",
+  label: {
+    alignSelf: 'flex-start',
     fontSize: 16,
+    color: '#000',
     marginBottom: 5,
-    marginLeft: 17,
   },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#182EF3",
-    borderRadius: 20,
-    paddingVertical: 17,
-    marginBottom: 24,
-    marginHorizontal: 43,
-  },
-  text: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  textqmk: {
-    color: "#182EF3",
-    fontSize: 14,
-    fontWeight: "bold",
-    marginBottom: 44,
-    marginLeft: 20,
-  },
-  textdktk: {
-    color: "#000000",
-    fontSize: 14,
-    marginBottom: 268,
-    marginLeft: 69,
-  },
-  dropdownContainer: {
+  input: {
+    width: '100%',
     height: 50,
-    width: '20%',
-    marginLeft: "80%",
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+    fontSize: 16,
   },
-  dropdown: {
-    backgroundColor: '#fafafa',
+  passwordContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 15,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 50,
+    paddingHorizontal: 10,
+    fontSize: 16,
+  },
+  eyeIcon: {
+    padding: 10,
+  },
+  forgotPassword: {
+    color: '#0000FF',
+    alignSelf: 'flex-end',
+    marginBottom: 20,
+  },
+  loginButton: {
+    width: '100%',
+    backgroundColor: '#0000FF',
+    paddingVertical: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  disabledButton: {
+    backgroundColor: '#8888FF',
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  registerText: {
+    color: '#0000FF',
+    marginBottom: 20,
+  },
+  languagePickerContainer: {
+    zIndex: 1000,
+    width: '100%',
+    marginBottom: 20,
+  },
+  languagePicker: {
+    width: '100%',
+  },
+  languagePickerText: {
+    fontSize: 16,
+  },
+  footerText: {
+    color: '#888',
+    marginTop: 20,
   },
 });

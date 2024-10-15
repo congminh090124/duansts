@@ -6,14 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get('window');
 import { getApiUrl } from '../screens/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTranslation } from 'react-i18next';
-
-
+import API_URLS from '../api';
 // Giả định API để tìm kiếm sản phẩm
 const searchProducts = async (keyword) => {
   try {
     console.log(`Searching for: "${keyword}"`);
-    const response = await fetch(getApiUrl(`/api/product/search?keyword=${keyword}`));
+    const response = await fetch(API_URLS.SEARCH_PRODUCT(keyword));
 
   
 
@@ -40,17 +38,33 @@ const searchProducts = async (keyword) => {
 };
 
 // Giả định API để thêm sản phẩm mới
-const addNewProduct = async (nameProduct) => {
-  // Thay thế URL này bằng URL thực của API của bạn
-  const response = await fetch(getApiUrl('/api/product/addProduct'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ nameProduct: nameProduct }),
-  });
-  const data = await response.json();
-  return data;
+export const addNewProduct = async (productName) => {
+  try {
+    const response = await fetch(API_URLS.ADD_PRODUCT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nameProduct: productName })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Lỗi khi tạo sản phẩm mới');
+    }
+
+    const data = await response.json();
+    console.log('Phản hồi từ API khi thêm sản phẩm mới:', data);
+    
+    if (!data.product || !data.product._id) {
+      throw new Error('Không nhận được dữ liệu hợp lệ từ server');
+    }
+
+    return data.product;
+  } catch (error) {
+    console.error('Lỗi chi tiết khi thêm sản phẩm mới:', error);
+    throw new Error(`Không thể tạo sản phẩm mới: ${error.message}`);
+  }
 };
 // Giả định API để thêm sản phẩm vào giỏ hàng
 const addToCart = async (productId, quantity, unit) => {
@@ -62,7 +76,7 @@ const addToCart = async (productId, quantity, unit) => {
        return;
    }
   try {
-    const response = await fetch(getApiUrl('/api/cart/addToCart'), {
+    const response = await fetch(API_URLS.ADD_TO_CART, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -179,33 +193,39 @@ export default function OderProductScreen() {
     setShowResults(false);
   };
 
-  const handleAddNewProduct = async () => {
-    try {
-      const newProduct = await addNewProduct(productName);
-      console.log('New product added:', newProduct);
-      setProductName(''); // Clear input after adding
-      setSearchResults([]); // Clear search results
-    } catch (error) {
-      console.error('Error adding new product:', error);
-    }
-  };
   const handleAddToCart = async () => {
-    if (!selectedProductId || !quantity || !unit) {
-      alert('Vui lòng chọn sản phẩm và nhập đủ thông tin');
+    if (!productName || !quantity || !unit) {
+      alert('Vui lòng nhập đủ thông tin sản phẩm, số lượng và đơn vị');
       return;
     }
 
     try {
-      await addToCart(selectedProductId, quantity, unit);
+      let productToAdd;
+
+      if (!selectedProductId) {
+        console.log('Đang tạo sản phẩm mới...');
+        const newProduct = await addNewProduct(productName);
+        productToAdd = newProduct._id;
+        console.log('Sản phẩm mới đã được tạo:', newProduct);
+      } else {
+        productToAdd = selectedProductId;
+      }
+
+      console.log('Đang thêm vào giỏ hàng...', { productToAdd, quantity, unit });
+      await addToCart(productToAdd, quantity, unit);
+
+      // Reset form
       setProductName('');
       setQuantity('');
       setUnit(null);
-      setSelectedProductId(null);  // Xóa ID sau khi thêm vào giỏ hàng
+      setSelectedProductId(null);
+      
+      alert('Sản phẩm đã được thêm vào giỏ hàng');
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error('Lỗi chi tiết:', error);
+      alert(`Lỗi: ${error.message}`);
     }
   };
-
 
   const limitedResults = searchResults.slice(0, 4);
   return (
@@ -214,7 +234,7 @@ export default function OderProductScreen() {
     <SafeAreaView style={styles.container}>
      
       <View style={styles.header}>
-        <Text style={styles.headerText}>{t('order_name')} </Text>
+        <Text style={styles.headerText}>Thêm sản phẩm</Text>
 
         <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
           <Icon name="menu" size={24} color="#000" />
@@ -246,9 +266,8 @@ export default function OderProductScreen() {
       </Modal>
 
       
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>{t('product_name')}</Text>
-        </View>
+    
+          <Text style={styles.text1}>Tên sản phẩm</Text>
         <TextInput
           placeholder={t('product_input_placeholder')}
           style={styles.input}
@@ -277,46 +296,42 @@ export default function OderProductScreen() {
             )}
           />
         )}
-        <View style={styles.text2}>
+      
           <Text style={styles.text1}>
-          {t('quantity')}
+            {"Số lượng"}
           </Text>
 
-        </View>
-        <View style={styles.text2}>
-          <TextInput
-            placeholder={t('quantity_input_placeholder')}
-            style={styles.input2}
-            keyboardType="numeric"
-            value={quantity}  // Liên kết với trạng thái số lượng
-            onChangeText={setQuantity}  // Cập nhật trạng thái khi người dùng nhập số lượng
-          />
-          <DropDownPicker
-            open={open}
-            value={unit}
-            items={items}
-            setOpen={setOpen}
-            setValue={setUnit}
-            setItems={setItems}
-            placeholder={t('unit')}
-           
-            containerStyle={styles.donVi}
-          />
-        </View>
+       
+        <View style={styles.quantityContainer}>
+  <TextInput
+    placeholder={"Đầu vào số"}
+    style={styles.quantityInput}
+    keyboardType="numeric"
+    value={quantity}
+    onChangeText={setQuantity}
+  />
+  <DropDownPicker
+    open={open}
+    value={unit}
+    items={items}
+    setOpen={setOpen}
+    setValue={setUnit}
+    setItems={setItems}
+    placeholder="Đơn vị"
+    containerStyle={styles.unitPicker}
+    style={styles.unitPickerStyle}
+    dropDownContainerStyle={styles.dropDownContainerStyle}
+  />
+</View>
+
         <Text style={styles.textnx}>
-        {t('comment')}
+          {"Nhận xét"}
         </Text>
         <TextInput
 
           placeholder={""}
           style={styles.inputnx}
         />
-        {productName.length > 0 && searchResults.length === 0 && (
-          <TouchableOpacity onPress={handleAddNewProduct} style={styles.addNewButton}>
-            <Text style={styles.addNewButtonText}>Thêm sản phẩm mới</Text>
-          </TouchableOpacity>
-        )}
-
         <TouchableOpacity onPress={handleAddToCart} style={styles.addToCartButton}>
           <Text style={styles.addToCartButtonText}>{t('add_to_cart_button')}</Text>
         </TouchableOpacity>
@@ -330,15 +345,6 @@ export default function OderProductScreen() {
 
 
 const styles = StyleSheet.create({
-
-  donVi:{
- 
-    left: 20,
-    width:190,
-    marginLeft:-5
-   
-  },
-  dropdown:{ padding:3,},
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -357,18 +363,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
   },
-  subHeaderText: {
-    fontSize: 14,
-    color: '#666',
-  },
   menuButton: {
     padding: 8,
   },
-  content: {
-    flex: 1,
-    // Add content styling as needed
-  },
- 
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -388,13 +385,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-
-  title: {
-    color: "#000000",
-    fontSize: width * 0.05,
-    fontWeight: "bold",
-    marginBottom: height * 0.02,
-  },
   fieldContainer: {
     marginBottom: height * 0.02,
   },
@@ -402,11 +392,13 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontSize: width * 0.04,
     marginBottom: height * 0.01,
+    
   },
   input: {
     color: "#1D1B20",
     fontSize: width * 0.035,
     marginBottom: height * 0.015,
+    marginHorizontal: width * 0.04,
     borderColor: "#79747E",
     borderRadius: 4,
     borderWidth: 1,
@@ -430,65 +422,41 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     color: '#333',
   },
-  addNewButton: {
-    marginTop: height * 0.02,
-    backgroundColor: '#4CAF50',
-    borderRadius: 4,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  addToCartButton:{
-    alignItems: "center",
-    backgroundColor: "#182EF3",
-    borderRadius: 20,
-    marginLeft:width*0.21,
-    width: width * 0.5, // 50% of screen width
-    paddingVertical: 15,
-    marginBottom: 24,
-  },
-  addNewButtonText: {
-    color: '#fff',
-    fontSize: width * 0.04,
-    fontWeight: 'bold',
-  },
- 
-  text1: {
-    color: "#000000",
-    fontSize: width * 0.04,  // Giảm cỡ chữ
-    marginBottom: height * 0.015,
-    marginLeft: width * 0.07,
-    marginTop: height * 0.02,
-  },
-  text2: {
-    color: "#000000",
-    fontSize: width * 0.04,
+  quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-   
-  },
-  input: {
-    color: "#1D1B20",
-    fontSize: width * 0.035,
-    marginBottom: height * 0.015,
+    justifyContent: 'space-between',
     marginHorizontal: width * 0.04,
-    borderColor: "#79747E",
-    borderRadius: 4,
-    borderWidth: 1,
-    paddingVertical: height * 0.02,
-    paddingHorizontal: width * 0.035,
+    marginBottom: height * 0.02,
   },
-  input2: {
+  quantityInput: {
+    flex: 1,
     color: "#1D1B20",
     fontSize: width * 0.035,
-    marginLeft: width * 0.04,
-    width: 160,
     height: 50,
     borderColor: "#79747E",
     borderRadius: 4,
     borderWidth: 1,
-    paddingVertical: height * 0.015,
     paddingHorizontal: width * 0.04,
-    marginLeft: 20
+    marginRight: width * 0.02,
+  },
+  unitPicker: {
+    width: width * 0.3,
+  },
+  unitPickerStyle: {
+    backgroundColor: '#fafafa',
+    borderColor: "#79747E",
+    height: 50,
+  },
+  dropDownContainerStyle: {
+    borderColor: "#79747E",
+  },
+  text1: {
+    color: "#000000",
+    fontSize: width * 0.04,
+    marginBottom: height * 0.015,
+    marginLeft: width * 0.05,
+    marginTop: height * 0.02,
   },
  
   textnx: {
@@ -509,5 +477,19 @@ const styles = StyleSheet.create({
     paddingVertical: height * 0.04,
     paddingHorizontal: width * 0.035,
   },
-
+  addToCartButton: {
+    marginTop: height * 0.02,
+    backgroundColor: '#66CCFF',
+    borderRadius: 4,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40%',
+    alignSelf: 'center',
+  },
+  addToCartButtonText: {
+    color: '#fff',
+    fontSize: width * 0.04,
+    fontWeight: 'bold',
+  },
 });

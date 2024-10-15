@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getApiUrl } from '../screens/API';
-import { useTranslation } from 'react-i18next';
+import API_URLS from '../api';
 export default function VerificationAccountScreen({ navigation }) {
 
   const { t, i18n } = useTranslation();
@@ -60,7 +59,7 @@ export default function VerificationAccountScreen({ navigation }) {
     }
 
     try {
-      const response = await fetch(getApiUrl('/api/auth/verify-otp'), {
+      const response = await fetch(API_URLS.VERIFY_OTP, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

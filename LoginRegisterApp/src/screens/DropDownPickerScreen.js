@@ -1,19 +1,49 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal ,Image} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
-import { useTranslation } from 'react-i18next';
+
 export default function DropDownPickerScreen() {
     const navigation = useNavigation();
     const [menuVisible, setMenuVisible] = useState(false);
-    const { t, i18n } = useTranslation();
+
     const toggleMenu = () => setMenuVisible(!menuVisible);
 
     const menuOptions = [
-        { title:`${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
-        { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-        { title:  `${t('order')}`, onPress: () => navigation.navigate("OrderListCode") },
+        { title: 'Trang chủ', onPress: () =>navigation.navigate("DropDownPicker") },
+        { title: 'Giỏ hàng', onPress: () => navigation.navigate("ListOder") },
+        { title: 'Lịch sử mua hàng', onPress: () => navigation.navigate("OrderListCode") },
       ];
+
+    useEffect(() => {
+        const fetchRecentOrders = async () => {
+            const userId = await AsyncStorage.getItem('userId');
+            try {
+                const response = await axios.get(`https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/showInvoice/${userId}`);
+                setRecentOrders(response.data.slice(0, 3)); // Get the 3 most recent orders
+            } catch (error) {
+                console.error('Error fetching recent orders:', error);
+                Alert.alert('Error', 'Unable to fetch recent orders');
+            }
+        };
+
+        fetchRecentOrders();
+    }, []);
+
+    const handleOrderDetail = async (orderId) => {
+        if (selectedOrder && selectedOrder._id === orderId) {
+            setSelectedOrder(null);
+        } else {
+            try {
+                const response = await axios.get(`https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/showCTHoaDon/${orderId}`);
+                const orderDetail = response.data;
+                setSelectedOrder(orderDetail);
+            } catch (error) {
+                console.error('Error fetching order detail:', error);
+                Alert.alert('Error', 'Unable to fetch order detail');
+            }
+        }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -26,10 +56,7 @@ export default function DropDownPickerScreen() {
             </View>
             
             <View style={styles.content}>
-                <Image
-                    source={{ uri: 'https://i.pinimg.com/564x/6e/93/fd/6e93fd70335d4245fa0c0bad1126d21b.jpg' }}
-                    style={styles.hinhanhdicho}
-                />
+                {/* Add your content here */}
             </View>
 
             <TouchableOpacity
@@ -66,6 +93,8 @@ export default function DropDownPickerScreen() {
     );
 }
 
+const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -94,7 +123,6 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        // Add content styling as needed
     },
     button: {
         backgroundColor: "#4052FF",
@@ -129,17 +157,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
     },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      hinhanhdicho: {
-        width: '80%',
-        height: undefined,
-        aspectRatio: 1,
-        resizeMode: 'contain',
-        resizeMode: 'cover',
-      },
-    
 });
