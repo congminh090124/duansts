@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert,Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLanguage } from '../language/language';
 import { translations } from '../language/translations';
 export default function ForgotPasswordScreen() {
   const navigation = useNavigation();
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const { language } = useLanguage();
   const t = (key) => translations[language][key];

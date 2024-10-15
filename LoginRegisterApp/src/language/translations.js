@@ -11,6 +11,7 @@ export const translations = {
     loginFailed: 'Login failed',
     errorOccurred: 'An error occurred',
     companyName: "Company Name",
+    home:"Home"
   },
   vi: {
     loginTitle: 'Đăng nhập',
@@ -24,5 +25,6 @@ export const translations = {
     loginFailed: 'Đăng nhập thất bại',
     errorOccurred: 'Đã xảy ra lỗi',
     companyName: "Tên công ty",
+    home:"Trang chủ",
   }
 };
