@@ -18,7 +18,7 @@ export default function ListOrderScreen() {
     const menuOptions = [
         { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
         { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-        { title: `${t('order')}`, onPress: () => navigation.navigate("OrderListCode") },
+        { title: `${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
     useEffect(() => {
         fetchCartItems();
@@ -40,7 +40,7 @@ export default function ListOrderScreen() {
 
     const updateQuantity = async (itemId, newQuantity) => {
         if (newQuantity < 1) {
-            Alert.alert((`${t('notification')}`), (`${t('The number cannot be less than 1')}`));
+            Alert.alert((`${t('notification')}`), (`${t('Thenumbercannotbelessthan1')}`));
             return;
         }
         try {

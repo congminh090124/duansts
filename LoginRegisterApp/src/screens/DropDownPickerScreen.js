@@ -1,55 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal,Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
-
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function DropDownPickerScreen() {
+
     const navigation = useNavigation();
     const [menuVisible, setMenuVisible] = useState(false);
-
+    
+    const { language, changeLanguage } = useLanguage();
     const toggleMenu = () => setMenuVisible(!menuVisible);
-
+    
+    const t = (key) => translations[language][key];
     const menuOptions = [
-        { title: 'Trang chủ', onPress: () =>navigation.navigate("DropDownPicker") },
-        { title: 'Giỏ hàng', onPress: () => navigation.navigate("ListOder") },
-        { title: 'Lịch sử mua hàng', onPress: () => navigation.navigate("OrderListCode") },
+        { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
+        { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
+        { title:`${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
-
-    useEffect(() => {
-        const fetchRecentOrders = async () => {
-            const userId = await AsyncStorage.getItem('userId');
-            try {
-                const response = await axios.get(`https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/showInvoice/${userId}`);
-                setRecentOrders(response.data.slice(0, 3)); // Get the 3 most recent orders
-            } catch (error) {
-                console.error('Error fetching recent orders:', error);
-                Alert.alert('Error', 'Unable to fetch recent orders');
-            }
-        };
-
-        fetchRecentOrders();
-    }, []);
-
-    const handleOrderDetail = async (orderId) => {
-        if (selectedOrder && selectedOrder._id === orderId) {
-            setSelectedOrder(null);
-        } else {
-            try {
-                const response = await axios.get(`https://lacewing-evolving-generally.ngrok-free.app/api/hoaDon/showCTHoaDon/${orderId}`);
-                const orderDetail = response.data;
-                setSelectedOrder(orderDetail);
-            } catch (error) {
-                console.error('Error fetching order detail:', error);
-                Alert.alert('Error', 'Unable to fetch order detail');
-            }
-        }
-    };
-
+     
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}></Text>
-                <Text style={styles.subHeaderText}>Home</Text>
+                <Text style={styles.headerText}>Khách hàng</Text>
+                <Text style={styles.subHeaderText}>Tên người dùng ứng dụng</Text>
                 <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
                     <Icon name="menu" size={24} color="#000" />
                 </TouchableOpacity>
@@ -63,7 +37,7 @@ export default function DropDownPickerScreen() {
                 style={styles.button}
                 onPress={() => navigation.navigate('OderProduct')}
             >
-                <Text style={styles.buttonText}>Next </Text>
+                <Text style={styles.buttonText}>{t('next')}</Text>
             </TouchableOpacity>
 
             <Modal
@@ -93,8 +67,6 @@ export default function DropDownPickerScreen() {
     );
 }
 
-const { width, height } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -110,7 +82,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#e0e0e0',
     },
     headerText: {
-        fontSize: 16,
+fontSize: 16,
         fontWeight: 'bold',
         color: '#000',
     },
@@ -123,6 +95,7 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
+        // Add content styling as needed
     },
     button: {
         backgroundColor: "#4052FF",

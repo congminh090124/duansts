@@ -11,7 +11,14 @@ export const translations = {
     loginFailed: 'Login failed',
     errorOccurred: 'An error occurred',
     companyName: "Company Name",
-    home:"Home"
+    home:"Home",
+    cart:"Cart",
+    History:"History",
+    next:"Next",
+      error:"Erro",
+      notification:"Notification",
+      Thenumbercannotbelessthan1:"The number cannot be less than 1",
+      
   },
   vi: {
     loginTitle: 'Đăng nhập',
@@ -26,5 +33,11 @@ export const translations = {
     errorOccurred: 'Đã xảy ra lỗi',
     companyName: "Tên công ty",
     home:"Trang chủ",
+    cart:"Giỏ hàng",
+    History:"Lịch sử mua hàng",
+      next:"Đến tiếp theo",
+      error:"Lỗi",
+      notification:"Thông báo",
+    Thenumbercannotbelessthan1:"số lượng không thể nhỏ hơn 1",
   }
 };
