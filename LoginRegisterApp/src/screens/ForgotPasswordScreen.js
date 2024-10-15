@@ -34,7 +34,7 @@ export default function ForgotPasswordScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.textqmk}>{t('forgotPassword')}</Text>
-      <Text style={styles.text1}>{"Vui lòng nhập địa chỉ email của bạn"}</Text>
+      <Text style={styles.text1}>{t('email_prompt')}</Text>
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
@@ -45,7 +45,7 @@ export default function ForgotPasswordScreen() {
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSendOTP}>
-        <Text style={styles.text}>{t('SendOTP')}</Text>
+        <Text style={styles.text}>{t('submit')}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.buttonText}>{t('BacktoLogin')}</Text>
