@@ -14,6 +14,7 @@ import NotificationScreen from '../screens/NotificationScreen';
 import OrderListScreen from '../screens/OrderListScreen';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import SupportCustomerScreen from '../screens/SupportCustomerScreen';
+import SupportChanelScreen from '../screens/SupportChanelScreen';
 import ListOderScreen from '../screens/ListOderScreen';
 import OderSucsess from '../screens/OderSucsess';
 
@@ -36,8 +37,17 @@ const AppNavigation = () => {
           options={{ headerShown: false }} // Hide the header
         />
         <Stack.Screen 
+          name="FaqScreen" 
+          component={FaqScreen} 
+          options={{ headerShown: false }} // Hide the header
+        />
+        <Stack.Screen 
           name="ForgotPassword" 
           component={ForgotPasswordScreen} 
+          options={{ headerShown: false }} // Hide the header
+        /><Stack.Screen 
+          name="SupportChannel" 
+          component={SupportChanelScreen} 
           options={{ headerShown: false }} // Hide the header
         />
         <Stack.Screen 

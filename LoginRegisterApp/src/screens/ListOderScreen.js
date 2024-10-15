@@ -3,9 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Entypo';
+
+import { getApiUrl } from '../screens/API';
 const { width, height } = Dimensions.get('window');
 import API_URLS from '../api';
 export default function ListOrderScreen() {
+     const { t, i18n } = useTranslation();
     const navigation = useNavigation();
     const [cartItems, setCartItems] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
@@ -13,9 +16,9 @@ export default function ListOrderScreen() {
     const toggleMenu = () => setMenuVisible(!menuVisible);
 
     const menuOptions = [
-        { title: 'Trang chủ', onPress: () =>navigation.navigate("DropDownPicker") },
-        { title: 'Giỏ hàng', onPress: () => navigation.navigate("ListOder") },
-        { title: 'Lịch sử mua hàng', onPress: () => navigation.navigate("OrderListCode") },
+        { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
+        { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
+        { title: `${t('order')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
     useEffect(() => {
         fetchCartItems();
@@ -30,14 +33,14 @@ export default function ListOrderScreen() {
             const data = await response.json();
             setCartItems(data);
         } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu giỏ hàng:', error);
-            Alert.alert('Lỗi', 'Không thể lấy dữ liệu giỏ hàng');
+            console.error(`${t('error')}`, error);
+            Alert.alert(`${t('error')}`);
         }
     };
 
     const updateQuantity = async (itemId, newQuantity) => {
         if (newQuantity < 1) {
-            Alert.alert('Thông báo', 'Số lượng không thể nhỏ hơn 1');
+            Alert.alert((`${t('notification')}`), (`${t('The number cannot be less than 1')}`));
             return;
         }
         try {
@@ -54,24 +57,24 @@ export default function ListOrderScreen() {
                 throw new Error('Cập nhật số lượng thất bại');
             }
         } catch (error) {
-            console.error('Lỗi khi cập nhật số lượng:', error);
-            Alert.alert('Lỗi', 'Không thể cập nhật số lượng');
+            console.error(`${t('quantityUpdateError')}`, error);
+            Alert.alert((`${t('error')}`), );
         }
     };
 
     const handleDeleteItem = async (itemId) => {
         Alert.alert(
-            'Xác nhận xóa',
-            'Bạn có chắc chắn muốn xóa sản phẩm này?',
+            (`${t('Delete confirmation')}`),
+            (`${t('Are you sure you want to delete this item?')}`),
             [
-                { text: 'Hủy', style: 'cancel' },
+                { text: (`${t('Cancel')}`), style: 'cancel' },
                 {
-                    text: 'Xóa',
+                    text: (`${t('Delete')}`),
                     onPress: async () => {
                         try {
                             const userId = await AsyncStorage.getItem('userId');
                             if (!userId) {
-                                Alert.alert('Lỗi', 'Người dùng chưa đăng nhập');
+                                Alert.alert((`${t('Error')}`), (`${t('User not logged in')}`));
                                 return;
                             }
     
@@ -92,8 +95,8 @@ export default function ListOrderScreen() {
     
                             fetchCartItems();
                         } catch (error) {
-                            console.error('Lỗi khi xóa sản phẩm:', error);
-                            Alert.alert('Lỗi', 'Không thể xóa sản phẩm');
+                            console.error((`${t('Failed to delete item')}`), error);
+                            Alert.alert((`${t('Error')}`), (`${t('Failed to delete item')}`));
                         }
                     },
                 },
@@ -106,11 +109,11 @@ export default function ListOrderScreen() {
         try {
             const userId = await AsyncStorage.getItem('userId');
             if (!userId) {
-                Alert.alert('Lỗi', 'Không tìm thấy người dùng');
+                Alert.alert((`${t('Error')}`), (`${t('User not logged in')}`));
                 return;
             }
 
-            console.log('Dữ liệu thanh toán:', { userId, cartItems, tinhTrang: 'Thành Công' });
+            console.log('Dữ liệu thanh toán:', { userId, cartItems, tinhTrang: (`${t('success')}`) });
 
             const response = await fetch(API_URLS.CREATE_INVOICE, {
                 method: 'POST',
@@ -131,25 +134,25 @@ export default function ListOrderScreen() {
             const data = await response.json();
 
             if (response.status === 201) {
-                Alert.alert('Thành công', 'Đơn hàng đã được gửi thành công');
+                Alert.alert(`${t('success')}`, `${t('checkoutSuccess')}`);
                 fetchCartItems(); 
             } else {
-                Alert.alert('Lỗi', 'Có lỗi xảy ra khi xử lý thanh toán');
+                Alert.alert(`${t('Error')}`, `${t('checkoutError')}`);
             }
         } catch (error) {
-            console.error('Lỗi trong quá trình thanh toán:', error);
-            Alert.alert('Lỗi', 'Yêu cầu thất bại với mã trạng thái 500');
+            console.error(`${t('Failed to process payment')}`, error);
+            Alert.alert(`${t('Error')}`, `${t('Failed with status code 500')}`);
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textf}>Giỏ hàng</Text>
+            <Text style={styles.textf}>{t('cart')}</Text>
             <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
                     <Icon name="menu" size={24} color="#000" />
                 </TouchableOpacity>
             <View>
-                <Text style={styles.text1}>Danh sách sản phẩm trong giỏ hàng</Text>
+                <Text style={styles.text1}>{t('product_list')}</Text>
             </View>
             <View style={styles.viewday}>
                 <Text style={styles.textday}>{new Date().toLocaleDateString()}</Text>
@@ -211,7 +214,7 @@ export default function ListOrderScreen() {
 
             <View style={styles.viewbutton}>
                 <TouchableOpacity style={styles.viewodcf} onPress={handleCheckout}>
-                    <Text style={styles.textodcf}>Gửi đơn hàng</Text>
+                    <Text style={styles.textodcf}>{t('submit_order_button')}</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -1,11 +1,13 @@
 import React from 'react';
 import { ScrollView, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image, } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
+import { useTranslation } from 'react-i18next';
 
 
 export default function OderDetailScreen() {
     const navigation = useNavigation();
+    const { t, i18n } = useTranslation();
+
     return (
         <View>
             <View style={styles.row}>
@@ -19,7 +21,7 @@ export default function OderDetailScreen() {
                 <View style={styles.box}>
                 </View>
                 <Text style={styles.text}>
-                    {"Chi tiết đặt hàng"}
+                    {t("orderDetail")}
                 </Text>
                 <TouchableOpacity>
                     <Image
@@ -32,7 +34,7 @@ export default function OderDetailScreen() {
             <ScrollView style={styles.scrollView}>
                 <View style={styles.row2}>
                     <Text style={styles.text2}>
-                        {"thứ tự mã"}
+                    {t("order_code")}
                     </Text>
                     <Text style={styles.text3}>
                         {"IN00000008"}
@@ -40,7 +42,7 @@ export default function OderDetailScreen() {
                 </View>
                 <View style={styles.row3}>
                     <Text style={styles.text4}>
-                        {"Ngày đặt hàng"}
+                    {t("order_date")}
                     </Text>
                     <Text style={styles.text5}>
                         {"2024/07/14 16:20"}
@@ -48,10 +50,10 @@ export default function OderDetailScreen() {
                 </View>
                 <View style={styles.row4}>
                     <Text style={styles.text6}>
-                        {"tình huống"}
+                    {t("situation")}
                     </Text>
                     <Text style={styles.text7}>
-                        {"Hoàn thành"}
+                    {t("complete")}
                     </Text>
                 </View>
                 <View style={styles.box2}>
@@ -66,10 +68,10 @@ export default function OderDetailScreen() {
                     </View>
                     <View style={styles.column2}>
                         <Text style={styles.text8}>
-                            {"Đẳng cấp cá ngừ vây xanh"}
+                        {t("bluefin_tuna")}
                         </Text>
                         <Text style={styles.text9}>
-                            {"MÃ00001"}
+                            {"MÃ00001"}  {/*  chỗ này ghi thẳng mã sp luôn không cần chú thish bên cạnh  */}
                         </Text>
                         <View style={styles.row6}>
                             <Text style={styles.text10}>
@@ -82,15 +84,15 @@ export default function OderDetailScreen() {
                         <View style={styles.row6}>
 
                             <Text style={styles.text12}>
-                                {"giá "}
+                            {t("price")}
                             </Text>
                             <Text style={styles.text13}>
-                                {"16.600 yên"}
+                                {"16.600"} {t('yen')}
                             </Text>
                         </View>
                     </View>
                 </View>
-                <View style={styles.row5}>
+                {/* <View style={styles.row5}>
                     <Image
                         source={{ uri: "https://i.imgur.com/1tMFzp8.png" }}
                         resizeMode={"stretch"}
@@ -155,47 +157,47 @@ export default function OderDetailScreen() {
                             </Text>
                         </View>
                     </View>
-                </View>
+                </View> */}
                 <View style={styles.box3}>
                 </View>
                 
             </ScrollView>
             <View style={styles.viewtt}>
                     <Text style={styles.text18}>
-                        {"Chi tiết thanh toán đơn hàng"}
+                    {t('order_payment_details')}
                     </Text>
                     <View style={styles.row12}>
                         <Text style={styles.text15}>
-                            {"Số tiền đặt hàng"}
+                        {t('order_amount')}
                         </Text>
                         <Text style={styles.text19}>
-                            {"21.000 Yên"}
+                            {"21.000 "}  {t('yen')}
                         </Text>
                     </View>
                     <View style={styles.row12}>
                         <Text style={styles.text15}>
-                            {"Giảm giá"}
+                        {t('discount')}
                         </Text>
                         <Text style={styles.text19}>
-                            {"1.000 Yên"}
+                            {"1.000  "}{t('yen')}
                         </Text>
                     </View>
                     <View style={styles.row12}>
                         <Text style={styles.text15}>
-                            {"Phí vận chuyển"}
+                        {t('shipping_fee')}
                         </Text>
                         <Text style={styles.text22}>
-                            {"Miễn phí"}
+                        {t('free_shipping')}
                         </Text>
                     </View>
                     <View style={styles.box4}>
                     </View>
                     <View style={styles.row13}>
                         <Text style={styles.text23}>
-                            {"Tổng số đơn đặt hàng"}
+                        {t('total_order_amount')}
                         </Text>
                         <Text style={styles.text22}>
-                            {"20.100 yên"}
+                            {"20.100  "}{t('yen')}
                         </Text>
                     </View>
                 </View>

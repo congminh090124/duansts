@@ -5,6 +5,7 @@ import { useLanguage } from '../language/language';
 import { translations } from '../language/translations';
 export default function ForgotPasswordScreen() {
   const navigation = useNavigation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const { language } = useLanguage();
   const t = (key) => translations[language][key];
@@ -21,13 +22,13 @@ export default function ForgotPasswordScreen() {
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert('Thành công', data.message);
+        Alert.alert (`${t('success')}`, data.message);
 		navigation.navigate('ConfirmPass', { email: email });
       } else {
         throw new Error(data.message || 'Có lỗi xảy ra');
       }
     } catch (error) {
-      Alert.alert('Lỗi', error.message);
+      Alert.alert((`${t('error')}`), error.message);
     }
   };
 
@@ -45,10 +46,10 @@ export default function ForgotPasswordScreen() {
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSendOTP}>
-        <Text style={styles.text}>{"Gửi OTP"}</Text>
+        <Text style={styles.text}>{t('SendOTP')}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText}>{"Quay lại để đăng nhập"}</Text>
+        <Text style={styles.buttonText}>{t('BacktoLogin')}</Text>
       </TouchableOpacity>
     </View>
   );

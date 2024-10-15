@@ -2,11 +2,14 @@ import * as React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { ScrollView, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image, } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 
 
 
 export default function SupportChanelScreen() {
+
+    const { t, i18n } = useTranslation();
     return (
 
 
@@ -18,7 +21,7 @@ export default function SupportChanelScreen() {
                     style={styles.image}
                 />
                 <Text style={styles.text}>
-                    {"Dịch vụ khách hàng"}
+                    {t("customer_service")}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonRow}>
@@ -36,7 +39,7 @@ export default function SupportChanelScreen() {
                     style={styles.image}
                 />
                 <Text style={styles.text}>
-                    {"Trang Web"}
+                    {t("website")}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonRow}>
