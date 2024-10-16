@@ -115,11 +115,11 @@ export default function OderProductScreen() {
  
   const handleLogout = () => {
     Alert.alert(
-      "Xác nhận đăng xuất",
-      "Bạn có chắc chắn muốn đăng xuất?",
+      `${t('confirmlogout')}`,
+      `${t('confirmlogout2')}`,
       [
         {
-          text: "Hủy",
+          text: `${t('Cancel')}`,
           style: "cancel"
         },
         { 
@@ -137,7 +137,7 @@ export default function OderProductScreen() {
               });
             } catch (error) {
               console.error('Error during logout:', error);
-              Alert.alert('Lỗi đăng xuất', 'Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại.');
+              Alert.alert(`${t('logoutErro')}`, );
             }
           }
         }

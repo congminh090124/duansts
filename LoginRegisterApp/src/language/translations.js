@@ -64,6 +64,19 @@ export const translations = {
     submit: "Send",
       email:"Gmail",
       phoneNumber:"Number Phone",
+       userEmail:"User Gmail",
+       verification:"Verification",
+         enter_verification_code:"Enter verification code ",
+         resend_code_instruction:"Resend code",
+          Account_verification_successful:"Account verification successful",
+          Invalid_OTP_Please_try_again:"Invalid OTP. Please try again",
+            Something_went_wrong:"Something went wrong. Please try again",
+             forgotPassword:"Forgot password",
+             enter_verification_code:"Enter OPT",
+             logoutErro:"Log Out Erro",
+             confirmlogout:"Confirm Log Out",
+             confirmlogout2:"do you want to log out",
+             Cancel:"Cancel"
 
   },
 
@@ -135,5 +148,18 @@ export const translations = {
     submit: "Gửi",
     email:"Gmail",
     phoneNumber:"Số điện thoại",
+    userEmail:"Gmail người dùng",
+    verification:"Xác minh",
+    enter_verification_code:"Nhập mã xác nhận",
+     resend_code_instruction:"Gửi lại mã",
+     Account_verification_successful:"Xác minh tài khoản thành công",
+       Invalid_OTP_Please_try_again:"Mã OTP không khớp .Vui lòng thử lại",
+       Something_went_wrong:"Có lỗi xảy ra , vui  lòng thử lại sau",
+      forgotPassword:"Quên mật khẩu",
+      enter_verification_code:"Nhập mã OPT xác nhận",
+      logoutErro:"Lỗi đăng xuất",
+        confirmlogout:"Xác nhận đăng xuất",
+        confirmlogout2:"Bạn có chắc muốn đăng xuất",
+             Cancel:"Huỷ"
   }
 };

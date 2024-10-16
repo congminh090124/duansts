@@ -1,11 +1,14 @@
 import React, { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import API_URLS from '../api';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function VerificationCodeScreen() {
+	const navigation = useNavigation();
+	const { language,  } = useLanguage();
 
-	const { t, i18n } = useTranslation();
-
+	const t = (key) => translations[language][key];
 
 	// Tạo các tham chiếu cho mỗi TextInput
 	const input1Ref = useRef(null);
