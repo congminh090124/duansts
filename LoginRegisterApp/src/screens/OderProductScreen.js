@@ -13,9 +13,10 @@ const searchProducts = async (keyword) => {
   try {
     console.log(`Searching for: "${keyword}"`);
     const response = await fetch(API_URLS.SEARCH_PRODUCT(keyword));
-
+    const navigation = useNavigation();
+    const { language  } = useLanguage();
   
-
+    const t = (key) => translations[language][key];
     const responseText = await response.text();
     console.log('Response text:', responseText);
 
@@ -123,7 +124,7 @@ export default function OderProductScreen() {
           style: "cancel"
         },
         { 
-          text: "Đăng xuất", 
+          text: `${t('logout')}`, 
           onPress: async () => {
             try {
               // Clear the user's session data

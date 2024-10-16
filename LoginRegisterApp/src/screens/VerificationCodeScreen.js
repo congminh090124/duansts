@@ -5,15 +5,13 @@ import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image } fr
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLanguage } from '../language/language';
 import { translations } from '../language/translations';
-import { useLanguage } from '../language/language';
-import { translations } from '../language/translations';
 export default function VerificationCodeScreen() {
 	const navigation = useNavigation();
 	const { language,  } = useLanguage();
 
 	const t = (key) => translations[language][key];
-	const navigation = useNavigation();
-	const { language,  } = useLanguage();
+	
+
 	
 
 
@@ -22,7 +20,7 @@ export default function VerificationCodeScreen() {
 	const input2Ref = useRef(null);
 	const input3Ref = useRef(null);
 	const input4Ref = useRef(null);
-	const t = (key) => translations[language][key];
+	
 //
 // lấy email
 const retrieveEmail = async () => {

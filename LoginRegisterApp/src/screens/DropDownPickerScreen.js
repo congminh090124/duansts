@@ -16,7 +16,7 @@ export default function DropDownPickerScreen() {
     const menuOptions = [
         { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
         { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-        { title:`${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
+        { title: `${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
       ];
      
     return (
