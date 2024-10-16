@@ -15,7 +15,7 @@ export default function OrderListScreen() {
             try {
                 const userId = await AsyncStorage.getItem('userId');
                 if (!userId) {
-                    throw new Error('User ID not found');
+                    throw new Error(`${t('User_ID_not_found')}`);
                 }
 
                 // console.log('Fetching invoices for user:', userId);
@@ -29,7 +29,7 @@ export default function OrderListScreen() {
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`${t('ErroHTTP_status')} ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -37,7 +37,7 @@ export default function OrderListScreen() {
                 setInvoices(data);
             } catch (error) {
                 console.error('Error fetching invoices:', error);
-                Alert.alert('Lỗi', 'Không thể lấy danh sách hóa đơn. Vui lòng thử lại sau.');
+                Alert.alert(`${t('Error')}`, `${t('Unable_to_get_invoice_list_Please_try_again_later')}`);
             }
         };
 
@@ -49,7 +49,7 @@ export default function OrderListScreen() {
             setSelectedInvoice(null);
         } else {
             try {
-                console.log('Đang lấy chi tiết hóa đơn cho ID:', invoiceId);
+                console.log(`${t('Getting_invoice')}`, invoiceId);
                 
                 // Lấy token từ AsyncStorage
                 const userToken = await AsyncStorage.getItem('userToken');
@@ -65,18 +65,18 @@ export default function OrderListScreen() {
                 if (!response.ok) {
                     const errorText = await response.text();
                     console.error('Phản hồi lỗi:', response.status, errorText);
-                    throw new Error(`Lỗi HTTP! Trạng thái: ${response.status}`);
+                    throw new Error(`${t('ErroHTTP_status')} ${response.status}`);
                 }
     
                 const invoiceDetail = await response.json();
                 // console.log('Chi tiết hóa đơn:', invoiceDetail);
                 setSelectedInvoice(invoiceDetail);
             } catch (error) {
-                console.error('Lỗi khi lấy chi tiết hóa đơn:', error);
+                console.error(`${t('Error_while_retrieving_invoice_details')}`, error);
                 if (error.message.includes('Network request failed')) {
-                    Alert.alert('Lỗi Kết Nối', 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng và thử lại.');
+                    Alert.alert(`${t('disconect')}`, `${t('Unable_to_connect_to_server_Please_check_your_network_connection_and_tryP_again')}`);
                 } else {
-                    Alert.alert('Lỗi', 'Không thể lấy chi tiết hóa đơn. Vui lòng thử lại sau.');
+                    Alert.alert(`${t('Error')}`, `${t('Unable_to_retrieve_invoice_details_Please_try_again_later')}`);
                 }
             }
         }
@@ -85,7 +85,7 @@ export default function OrderListScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.text1}>
-            {t('purchase_history')}
+            {t('History')}
             </Text>
             <View style={styles.row}>
                 <Image

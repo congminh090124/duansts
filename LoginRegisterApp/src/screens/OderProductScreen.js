@@ -51,7 +51,7 @@ export const addNewProduct = async (productName) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Lỗi khi tạo sản phẩm mới');
+      throw new Error(errorData.message || `${t('Erro_when_craftproduct')}`);
     }
 
     const data = await response.json();
@@ -150,7 +150,7 @@ export default function OderProductScreen() {
   const menuOptions = [
     { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
     { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-    { title: `${t('purchase_history')}`, onPress: () => navigation.navigate("OrderListCode") },
+    { title: `${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
     { title:  `${t('logout')}`, onPress: () =>  handleLogout()},
   ];
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -159,7 +159,7 @@ export default function OderProductScreen() {
   const [open, setOpen] = useState(false); // Trạng thái mở/đóng của dropdown
   const [items, setItems] = useState([
     { label: 'Kg', value: 'kg' },
-    { label: 'Con', value: 'con' },
+    { label: `${t('An')}`, value: 'An' },
   ]);
   const [productName, setProductName] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -181,11 +181,11 @@ export default function OderProductScreen() {
   const handleSearch = async (keyword) => {
     try {
       const results = await searchProducts(keyword);
-      console.log('Search results:', results); // Log results để kiểm tra
+      console.log(`${t('    Search_results:"Search results:"')}`, results); // Log results để kiểm tra
       setSearchResults(results);
       setShowResults(true);
     } catch (error) {
-      console.error('Error searching products:', error);
+      console.error(`${t('Error_searching_products')}`, error);
     }
   };
 
@@ -197,7 +197,7 @@ export default function OderProductScreen() {
 
   const handleAddToCart = async () => {
     if (!productName || !quantity || !unit) {
-      alert('Vui lòng nhập đủ thông tin sản phẩm, số lượng và đơn vị');
+      alert(`${t('Please_enter_complete_information')}`);
       return;
     }
 
@@ -205,15 +205,15 @@ export default function OderProductScreen() {
       let productToAdd;
 
       if (!selectedProductId) {
-        console.log('Đang tạo sản phẩm mới...');
+        console.log(`${t('creating_new')}`);
         const newProduct = await addNewProduct(productName);
         productToAdd = newProduct._id;
-        console.log('Sản phẩm mới đã được tạo:', newProduct);
+        console.log(`${t('newproductHasbeenCraft')}`, newProduct);
       } else {
         productToAdd = selectedProductId;
       }
 
-      console.log('Đang thêm vào giỏ hàng...', { productToAdd, quantity, unit });
+      console.log(`${t('adding_to_cart')}`, { productToAdd, quantity, unit });
       await addToCart(productToAdd, quantity, unit);
 
       // Reset form
@@ -222,10 +222,10 @@ export default function OderProductScreen() {
       setUnit(null);
       setSelectedProductId(null);
       
-      alert('Sản phẩm đã được thêm vào giỏ hàng');
+      alert`${t('product_be_add_to_cart')}`;
     } catch (error) {
-      console.error('Lỗi chi tiết:', error);
-      alert(`Lỗi: ${error.message}`);
+      console.error(`${t('Error')}`, error);
+      alert(`${t('Error')}: ${error.message}`);
     }
   };
 
@@ -269,7 +269,7 @@ export default function OderProductScreen() {
 
       
     
-          <Text style={styles.text1}>Tên sản phẩm</Text>
+          <Text style={styles.text1}>{t('nameProduct')}</Text>
         <TextInput
           placeholder={t('product_input_placeholder')}
           style={styles.input}
@@ -300,13 +300,13 @@ export default function OderProductScreen() {
         )}
       
           <Text style={styles.text1}>
-            {"Số lượng"}
+            {`${t('quantity')}`}
           </Text>
 
        
         <View style={styles.quantityContainer}>
   <TextInput
-    placeholder={"Đầu vào số"}
+    placeholder={`${t('enter_quantity')}`}
     style={styles.quantityInput}
     keyboardType="numeric"
     value={quantity}
@@ -319,7 +319,7 @@ export default function OderProductScreen() {
     setOpen={setOpen}
     setValue={setUnit}
     setItems={setItems}
-    placeholder="Đơn vị"
+    placeholder={t('unit')}
     containerStyle={styles.unitPicker}
     style={styles.unitPickerStyle}
     dropDownContainerStyle={styles.dropDownContainerStyle}
@@ -327,7 +327,7 @@ export default function OderProductScreen() {
 </View>
 
         <Text style={styles.textnx}>
-          {"Nhận xét"}
+          { `${t('comment')}`}
         </Text>
         <TextInput
 

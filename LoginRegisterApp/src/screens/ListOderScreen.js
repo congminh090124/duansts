@@ -56,7 +56,7 @@ export default function ListOrderScreen() {
             if (response.ok) {
                 fetchCartItems(); // Làm mới giỏ hàng
             } else {
-                throw new Error('Cập nhật số lượng thất bại');
+                throw new Error(`${t('updatenumberfale')}`);
             }
         } catch (error) {
             console.error(`${t('quantityUpdateError')}`, error);
@@ -66,8 +66,8 @@ export default function ListOrderScreen() {
 
     const handleDeleteItem = async (itemId) => {
         Alert.alert(
-            (`${t('Delete confirmation')}`),
-            (`${t('Are you sure you want to delete this item?')}`),
+            (`${t('Delete_confirmation')}`),
+            (`${t('Are_you_sure_you_want_to_delete_this_item')}`),
             [
                 { text: (`${t('Cancel')}`), style: 'cancel' },
                 {
@@ -143,7 +143,7 @@ export default function ListOrderScreen() {
             }
         } catch (error) {
             console.error(`${t('Failed to process payment')}`, error);
-            Alert.alert(`${t('Error')}`, `${t('Failed with status code 500')}`);
+            Alert.alert(`${t('Error')}`, );
         }
     };
 

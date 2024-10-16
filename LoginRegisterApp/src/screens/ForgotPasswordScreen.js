@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert,Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import API_URLS from '../api';
 import { useLanguage } from '../language/language';
 import { translations } from '../language/translations';
+
 export default function ForgotPasswordScreen() {
-  const navigation = useNavigation();
+
   // const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
-  const { language } = useLanguage();
+  const navigation = useNavigation();
+  const { language,  } = useLanguage();
   const t = (key) => translations[language][key];
+  
   const handleSendOTP = async () => {
     try {
       const response = await fetch(API_URLS.FORGOT_PASSWORD, {
@@ -25,7 +29,7 @@ export default function ForgotPasswordScreen() {
         Alert.alert (`${t('success')}`, data.message);
 		navigation.navigate('ConfirmPass', { email: email });
       } else {
-        throw new Error(data.message || 'Có lỗi xảy ra');
+        throw new Error(data.message || '');
       }
     } catch (error) {
       Alert.alert((`${t('error')}`), error.message);
@@ -35,7 +39,7 @@ export default function ForgotPasswordScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.textqmk}>{t('forgotPassword')}</Text>
-      <Text style={styles.text1}>{"Vui lòng nhập địa chỉ email của bạn"}</Text>
+      <Text style={styles.text1}>{`${t('enter_your_mail')}`}</Text>
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
