@@ -78,14 +78,14 @@ export default function VerificationAccountScreen({  }) {
       const data = await response.json();
 
       if (data.success) {
-        Alert.alert('Success', 'Account verification successful!');
+        Alert.alert(`${t('success')}`, `${t('Account_verification_successful')}`);
         // Chuyển đến màn hình đăng nhập hoặc màn hình chính
         navigation.navigate('Login');
       } else {
-        Alert.alert('Error', data.error || 'Invalid OTP. Please try again.');
+        Alert.alert(`${t('Error')}`, data.error ||`${t('sInvalid_OTP_Please_try_againuccess')}`);
       }
     } catch (error) {
-      Alert.alert('Error', 'Something went wrong. Please try again later.');
+      Alert.alert(`${t('Error')}`, 'Something went wrong. Please try again later.');
     }
   };
 

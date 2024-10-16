@@ -1,10 +1,17 @@
 import React, { useRef } from 'react';
+import API_URLS from '../api';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLanguage } from '../language/language';
 import { translations } from '../language/translations';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function VerificationCodeScreen() {
+	const navigation = useNavigation();
+	const { language,  } = useLanguage();
+
+	const t = (key) => translations[language][key];
 	const navigation = useNavigation();
 	const { language,  } = useLanguage();
 	
