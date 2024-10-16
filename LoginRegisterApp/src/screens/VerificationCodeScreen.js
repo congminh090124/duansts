@@ -1,10 +1,13 @@
 import React, { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 export default function VerificationCodeScreen() {
-
-	const { t, i18n } = useTranslation();
+	const navigation = useNavigation();
+	const { language,  } = useLanguage();
+	
 
 
 	// Tạo các tham chiếu cho mỗi TextInput
@@ -12,6 +15,7 @@ export default function VerificationCodeScreen() {
 	const input2Ref = useRef(null);
 	const input3Ref = useRef(null);
 	const input4Ref = useRef(null);
+	const t = (key) => translations[language][key];
 //
 // lấy email
 const retrieveEmail = async () => {
@@ -106,7 +110,7 @@ const retrieveEmail = async () => {
 					</Text>
 				</TouchableOpacity>
 				<Text style={styles.textdc}>
-				{t("already_have_account")}
+				{t("already_have_an_account")}
 				</Text>
 				<TouchableOpacity style={styles.buttondk}>
 					<Text style={styles.textdk}>
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginBottom: 12,
+		marginBottom: 10,
 		marginHorizontal: 73,
 	},
 	text: {

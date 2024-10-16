@@ -52,9 +52,9 @@ export default function ConfirmPassScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textqmk}>{t('newPassword')}</Text>
-      <Text style={styles.text1}>{t('enterOTPandNewPassword')}</Text>
-      <Text style={styles.text1}>{t('resetPassword')}</Text>
+      <Text style={styles.textqmk}>{t('new_pass')}</Text>
+      <Text style={styles.text1}>{t('please_enter_new_password')}</Text>
+     
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
@@ -64,17 +64,19 @@ export default function ConfirmPassScreen() {
           keyboardType="numeric"
         />
       </View>
+      <Text style={styles.text1}>{t('reset_password')}</Text>
+
       <View style={styles.view}>
         <TextInput 
           style={styles.text}
-          placeholder={t('newPassword')}
+          placeholder={t('new_pass')}
           value={newPassword}
           onChangeText={setNewPassword}
           secureTextEntry
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.text}>{t('resetPassword')}</Text>
+        <Text style={styles.text}>{t('reset_password')}</Text>
       </TouchableOpacity>
     </View>
   );

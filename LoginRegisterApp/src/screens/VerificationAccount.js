@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_URLS from '../api';
@@ -7,7 +8,7 @@ import { translations } from '../language/translations';
 export default function VerificationAccountScreen({  }) {
 
   const navigation = useNavigation();
-  const { language,  } = useLanguage();
+  const { language  } = useLanguage();
 
 
   const input1Ref = useRef(null);
