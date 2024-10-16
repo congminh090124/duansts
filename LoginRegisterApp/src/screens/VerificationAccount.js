@@ -2,9 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_URLS from '../api';
-export default function VerificationAccountScreen({ navigation }) {
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
+export default function VerificationAccountScreen({  }) {
 
-  const { t, i18n } = useTranslation();
+  const navigation = useNavigation();
+  const { language,  } = useLanguage();
 
 
   const input1Ref = useRef(null);
@@ -14,6 +17,7 @@ export default function VerificationAccountScreen({ navigation }) {
   const [storedEmail, setStoredEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']); // Lưu mã OTP 4 ký tự
 
+  const t = (key) => translations[language][key];
   // Lấy email từ AsyncStorage
   const retrieveEmail = async () => {
     try {
