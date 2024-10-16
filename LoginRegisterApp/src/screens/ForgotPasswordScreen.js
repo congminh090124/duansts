@@ -50,7 +50,7 @@ export default function ForgotPasswordScreen() {
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSendOTP}>
-        <Text style={styles.text}>{t('SendOTP')}</Text>
+        <Text style={styles.text}>{t('submit')}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.buttonText}>{t('BacktoLogin')}</Text>
