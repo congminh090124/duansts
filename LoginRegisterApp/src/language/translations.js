@@ -1,3 +1,5 @@
+import OderSucsess from "../screens/OderSucsess";
+
 export const translations = {
   en: {
     loginTitle: "Login",
@@ -100,13 +102,17 @@ export const translations = {
     support_service: "Support service",
      how_can_i_manage_my_account: "How can I manage my account?",
       customer_service_support: "Customer service support",
-      web:"Website"
+      web:"Website",
+      OderSucsess:"Oder Sucsess",
+      Thanks:"Thank you for your order ,Your order has been sent",
+       back_to_home:"Back to home"
 
   },
 
 
 
   vi: {
+
     loginTitle: 'Đăng nhập',
     username: 'Tên đăng nhập',
     password: 'Mật khẩu',
@@ -189,7 +195,7 @@ export const translations = {
     quantity: "Số lượng",
     enter_quantity: "Nhập số lượng",
     unit: "Đơn vị",
-    An: "Con ,bó, quả",
+    An: "Đơn vị, bó, quả",
     comment: "Nhận xét",
     Please_enter_complete_information: "Vui lòng nhập đầy đủ thông tin",
     Error_searching_products: "Lỗi tìm kiếm sản phẩm",
@@ -251,6 +257,9 @@ export const translations = {
     support_service: "Hỗ trợ dịch vụ",
     how_can_i_manage_my_account: "Làm thế nào để tôi quản lý tài khoản của mình?",
     customer_service_support: "Hỗ trợ dịch vụ khách hàng",
-    web:"Trang web"
+    web:"Trang web",
+    OderSucsess:"Đơn hàng thành công",
+    Thanks:"Cảm ơn bạn đã đặt hàng, Đơn hàng của bạn đã được gửi",
+    back_to_home:"Về trang chủ"
   }
 };

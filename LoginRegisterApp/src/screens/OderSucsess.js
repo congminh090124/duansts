@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 const { width, height } = Dimensions.get('window');
 
 export default function OderSucsess() {
     const navigation = useNavigation();
     const route = useRoute();
+    const t = (key) => translations[language][key];
+    const { language, changeLanguage } = useLanguage();
     const { orderData, cartItems } = route.params || {};
 
     // Thêm kiểm tra này
@@ -22,7 +25,7 @@ export default function OderSucsess() {
     return (
         <View style={styles.container}>
             <Text style={styles.titleText}>
-                {"Đơn hàng thành công"}
+                {`${t('OderSucsess')}`}
             </Text>
 
             <Image
@@ -32,7 +35,7 @@ export default function OderSucsess() {
             />
 
             <Text style={styles.thankYouText}>
-                {"Cảm ơn bạn đã đặt hàng\nĐơn hàng của bạn đã được gửi"}
+                {`${t('Thanks')}`}
             </Text>
 
             <View style={styles.dateView}>
@@ -68,7 +71,7 @@ export default function OderSucsess() {
             </ScrollView>
 
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('DropDownPicker')}>
-                <Text style={styles.buttonText}>{"Về trang chủ"}</Text>
+                <Text style={styles.buttonText}>{`${t('back_to_home')}`}</Text>
             </TouchableOpacity>
         </View>
     );
