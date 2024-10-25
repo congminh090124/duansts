@@ -197,7 +197,7 @@ export default function OderProductScreen() {
 
   const handleAddToCart = async () => {
     if (!productName || !quantity || !unit) {
-      alert(translations[language].Please_enter_full_product);
+    
       return;
     }
 
@@ -222,7 +222,7 @@ export default function OderProductScreen() {
       setUnit(null);
       setSelectedProductId(null);
       
-      alert(translations[language].Product_added_to_cart);
+      // alert(translations[language].Product_added_to_cart);
     } catch (error) {
       console.error('Lỗi chi tiết:', error);
       alert(translations[language].Error_adding_product);

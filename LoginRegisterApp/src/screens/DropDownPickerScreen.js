@@ -21,8 +21,12 @@ export default function DropDownPickerScreen() {
     const fetchUsername = async () => {
         try {
             const storedUsername = await AsyncStorage.getItem('username');
-            if (storedUsername !== null) {
+            if (storedUsername) {
                 setUsername(storedUsername);
+            } else {
+                console.warn('Username not found in AsyncStorage');
+                // Có thể thêm xử lý phụ ở đây, ví dụ:
+                // setUsername('Guest');
             }
         } catch (error) {
             console.error('Error fetching username:', error);
@@ -98,7 +102,7 @@ export default function DropDownPickerScreen() {
             
             <ScrollView style={styles.content}>
                 <View style={styles.recentOrdersContainer}>
-                    <Text style={styles.recentOrdersTitle}>Đơn hàng gần đây</Text>
+                    <Text style={styles.recentOrdersTitle}>{t('RecentOrders')}</Text>
                     {recentOrders.map((order) => (
                         <View key={order._id}>
                             <TouchableOpacity 
@@ -106,21 +110,21 @@ export default function DropDownPickerScreen() {
                                 onPress={() => handleOrderDetail(order._id)}
                             >
                                 <View style={styles.row0}>
-                                    <Text style={styles.textcod1}>Mã đơn</Text>
+                                    <Text style={styles.textcod1}>{t('code_order')}</Text>
                                     <Text style={styles.textcod}>{order._id}</Text>
                                 </View>
                                 <View style={styles.row0}>
-                                    <Text style={styles.textcod1}>Ngày đặt:</Text>
+                                    <Text style={styles.textcod1}>{t('order_date')}</Text>
                                     <Text style={styles.text3}>
                                         {new Date(order.createdAt).toLocaleDateString()} {new Date(order.createdAt).toLocaleTimeString()}
                                     </Text>
                                 </View>
                                 <View style={styles.row0}>
-                                    <Text style={styles.textpay}>Tình trạng:</Text>
+                                    <Text style={styles.textpay}>{t('situation')}</Text>
                                     <Text style={styles.textPC}>{order.tinhTrang}</Text>
                                 </View>
                                 <View style={styles.row0}>
-                                    <Text style={styles.textpay}>Tên khách hàng:</Text>
+                                    <Text style={styles.textpay}>{t('customer_name')}</Text>
                                     <Text style={styles.textuser}>{order.username || 'N/A'}</Text>
                                 </View>
                             </TouchableOpacity>

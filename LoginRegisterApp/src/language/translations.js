@@ -79,7 +79,29 @@ export const translations = {
     Cancel: "Cancel",
     supportcustomer: "Support Customer",
     notification:"Notification",
-    client:"Customer"
+    client:"Customer",
+    code_order: "Code Order",
+    situation:"Status",
+    RecentOrders: "Recent Orders",
+    support: "support",
+    supportCustomer: "Support Customer",
+    overview: "Overview",
+    account: "Account",
+    payment: "Payment",
+    services: "Services",
+    manage_notifications: "How do I manage my notifications?",
+    manage_notifications_detail: "To manage notifications, go to 'Settings', select 'Notification S'.",
+    start_meditation: "How can I start a guided meditation session?",
+    join_support_group: "How do I join the support group?",
+    data_safety: "Is my data safe and private?",
+    support_related_questions: "Support related questions",
+    available_payment_methods: "What payment methods are available?",
+    faq: "FAQ",
+    support_service: "Support service",
+     how_can_i_manage_my_account: "How can I manage my account?",
+      customer_service_support: "Customer service support",
+      web:"Website"
+
   },
 
 
@@ -210,6 +232,25 @@ export const translations = {
     An: "Con, cái,quả,bó",
     History: "Lịch sử mua hàng",
      supportcustomer: "Hỗ trợ khách hàng",
-     notification: "Thông Báo"
+     notification: "Thông Báo",
+     RecentOrders: "Đơn hàng gần đây",
+     supportCustomer: "Hỗ trợ khách hàng",
+    overview: "Tổng quan",
+    account: "Tài khoản",
+    payment: "Thanh toán",
+    services: "Dịch vụ",
+    support: "Hỗ trợ",
+    faq: " Câu hỏi thường gặp",
+    manage_notifications: "Làm thế nào để quản lý thông báo của tôi?",
+    manage_notifications_detail: "Để quản lý thông báo, hãy vào 'Cài đặt', chọn 'Thông báo '.",
+    start_meditation: "Làm thế nào để bắt đầu một buổi thiền có hướng dẫn?",
+    join_support_group: "Làm thế nào để tham gia vào nhóm hỗ trợ?",
+    data_safety: "Dữ liệu của tôi có an toàn và riêng tư không?",
+    support_related_questions: "Các câu hỏi liên quan đến hỗ trợ",
+    available_payment_methods: "Các phương thức thanh toán nào có sẵn?",
+    support_service: "Hỗ trợ dịch vụ",
+    how_can_i_manage_my_account: "Làm thế nào để tôi quản lý tài khoản của mình?",
+    customer_service_support: "Hỗ trợ dịch vụ khách hàng",
+    web:"Trang web"
   }
 };

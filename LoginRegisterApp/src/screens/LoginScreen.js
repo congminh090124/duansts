@@ -73,18 +73,13 @@ export default function LoginScreen() {
         await AsyncStorage.setItem('userToken', data.token || '');
         await AsyncStorage.setItem('userId', data.userId || '');
         
-        // Kiểm tra username trước khi lưu
-        if (data.username) {
-          await AsyncStorage.setItem('username', data.username);
-        } else {
-          console.warn('Username is undefined in the response');
-          // Có thể sử dụng username từ input nếu không có trong response
-          await AsyncStorage.setItem('username', username);
-        }
+        // Sử dụng username từ input nếu không có trong response
+        const usernameToStore = data.username || username;
+        await AsyncStorage.setItem('username', usernameToStore);
 
         await AsyncStorage.setItem('isLoggedIn', 'true');
         Alert.alert(t('success'), t('loginSuccess'));
-        navigation.navigate('DropDownPicker', { username: data.username || username });
+        navigation.navigate('DropDownPicker', { username: usernameToStore });
       } else {
         Alert.alert(t('error'), t('loginFailed'));
       }

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
 
 const FaqScreen = () => {
   const [activeTab, setActiveTab] = useState('left');
   const [activeSubTab, setActiveSubTab] = useState('Tổng quan'); // Manage sub tabs for LeftScreen
-
+  const { language,  } = useLanguage();
+  const t = (key) => translations[language][key];
   const LeftScreen = () => (
     <ScrollView style={styles.container}>
       {/* Sub Tabs */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabScrollView}>
-        {['Tổng quan', 'Tài khoản', 'Sự chi trả', 'Dịch vụ'].map((tab) => (
+        {[`${t('overview')}`, `${t('account')}`, `${t('payment')}`, `${t('services')}`].map((tab) => (
           <TouchableOpacity
             key={tab}
             style={[styles.tab, activeSubTab === tab && styles.activeTab]}
@@ -24,37 +27,37 @@ const FaqScreen = () => {
       {/* Sub Tab Content */}
       {activeSubTab === 'Tổng quan' && (
         <View>
-          <Text style={styles.sectionTitle}>Tổng quan</Text>
+          <Text style={styles.sectionTitle}>{t('overview')}</Text>
           <View style={styles.questionContainer}>
-            <Text style={styles.question}>Tôi quản lý thông báo của mình như thế nào?</Text>
-            <Text style={styles.answer}>Để quản lý thông báo, hãy vào "Cài đặt", chọn "Thông báo" và tùy chỉnh theo ý muốn của bạn.</Text>
+            <Text style={styles.question}>{t('manage_notifications')}</Text>
+            <Text style={styles.answer}>{t('manage_notifications_detail')}</Text>
           </View>
         </View>
       )}
 
       {activeSubTab === 'Tài khoản' && (
         <View>
-          <Text style={styles.sectionTitle}>Tài khoản</Text>
+          <Text style={styles.sectionTitle}>{t('account')}</Text>
           <View style={styles.questionContainer}>
-            <Text style={styles.question}>Làm thế nào để tôi quản lý tài khoản của mình?</Text>
+            <Text style={styles.question}>{t('how_can_i_manage_my_account')}</Text>
           </View>
         </View>
       )}
 
       {activeSubTab === 'Sự chi trả' && (
         <View>
-          <Text style={styles.sectionTitle}>Sự chi trả</Text>
+          <Text style={styles.sectionTitle}>{t('payment')}</Text>
           <View style={styles.questionContainer}>
-            <Text style={styles.question}>Làm sao để tôi kiểm tra hóa đơn thanh toán?</Text>
+            <Text style={styles.question}>{t('available_payment_methods')}</Text>
           </View>
         </View>
       )}
 
       {activeSubTab === 'Dịch vụ' && (
         <View>
-          <Text style={styles.sectionTitle}>Dịch vụ</Text>
+          <Text style={styles.sectionTitle}>{t('services')}</Text>
           <View style={styles.questionContainer}>
-            <Text style={styles.question}>Các dịch vụ nào có sẵn?</Text>
+            <Text style={styles.question}>{t('customer_service_support')}</Text>
           </View>
         </View>
       )}
@@ -63,10 +66,10 @@ const FaqScreen = () => {
 
   const RightScreen = () => (
     <ScrollView style={styles.container}>
-      <Text style={styles.sectionTitle}>Hỗ trợ dịch vụ khách hàng</Text>
+      <Text style={styles.sectionTitle}>{t('customer_service_support')}</Text>
       <TouchableOpacity style={styles.supportOption}>
         <Ionicons name="headset-outline" size={24} color="black" />
-        <Text style={styles.supportOptionText}>Dịch vụ khách hàng</Text>
+        <Text style={styles.supportOptionText}>{t('support_service')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.supportOption}>
         <Ionicons name="logo-whatsapp" size={24} color="black" />
@@ -74,7 +77,7 @@ const FaqScreen = () => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.supportOption}>
         <Ionicons name="globe-outline" size={24} color="black" />
-        <Text style={styles.supportOptionText}>Trang web</Text>
+        <Text style={styles.supportOptionText}>{t('web')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.supportOption}>
         <Ionicons name="logo-facebook" size={24} color="black" />
@@ -95,16 +98,16 @@ const FaqScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Hỗ trợ khách hàng</Text>
+        <Text style={styles.headerTitle}>{t('supportCustomer')}</Text>
       </View>
 
       {/* Top Nav */}
       <View style={styles.navContainer}>
         <TouchableOpacity onPress={() => setActiveTab('left')} style={[styles.navItem, activeTab === 'left' && styles.activeNav]}>
-          <Text style={styles.navText}>Câu hỏi thường gặp</Text>
+          <Text style={styles.navText}>{t('faq')}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setActiveTab('right')} style={[styles.navItem, activeTab === 'right' && styles.activeNav]}>
-          <Text style={styles.navText}>Hỗ trợ dịch vụ</Text>
+          <Text style={styles.navText}>{t('support_service')}</Text>
         </TouchableOpacity>
       </View>
 
