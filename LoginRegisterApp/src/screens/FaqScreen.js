@@ -1,233 +1,203 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Sử dụng bộ icon Ionicons
-import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function FaqScreen() {
-    const { t, i18n } = useTranslation();
-    const [expandedId, setExpandedId] = useState(null); // Trạng thái lưu ID của item mở rộng
-    const [activeTab, setActiveTab] = useState('general'); // Trạng thái lưu tab hiện tại
+const FaqScreen = () => {
+  const [activeTab, setActiveTab] = useState('left');
+  const [activeSubTab, setActiveSubTab] = useState('Tổng quan'); // Manage sub tabs for LeftScreen
 
-    const toggleDropdown = (id) => {
-        setExpandedId(expandedId === id ? null : id); // Thay đổi trạng thái khi người dùng nhấn
-    };
+  const LeftScreen = () => (
+    <ScrollView style={styles.container}>
+      {/* Sub Tabs */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabScrollView}>
+        {['Tổng quan', 'Tài khoản', 'Sự chi trả', 'Dịch vụ'].map((tab) => (
+          <TouchableOpacity
+            key={tab}
+            style={[styles.tab, activeSubTab === tab && styles.activeTab]}
+            onPress={() => setActiveSubTab(tab)} // Set the active sub-tab
+          >
+            <Text style={[styles.tabText, activeSubTab === tab && styles.activeTabText]}>{tab}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'account':
-                return (
-                    <View>
-                        {[1, 2, 3].map((itemId) => (
-                            <TouchableOpacity key={itemId} style={styles.button2} onPress={() => toggleDropdown(itemId)}>
-                                <View style={styles.row}>
-                                    <Text style={styles.text2}>{t("support_related_questions")}</Text>
-                                    <Ionicons
-                                        name={expandedId === itemId ? 'chevron-up-outline' : 'chevron-down-outline'}
-                                        size={20}
-                                        color="black"
-                                        style={styles.icon}
-                                    />
-                                </View>
-                                {expandedId === itemId && (
-                                    <View style={styles.dropdown}>
-                                        <Text style={styles.item}>
-                                            {t("data_safety")}
-                                        </Text>
-                                    </View>
-                                )}
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                );
-            case 'payments':
-                return (
-                    <View>
-                    {[1, 2, 3].map((itemId) => (
-                        <TouchableOpacity key={itemId} style={styles.button2} onPress={() => toggleDropdown(itemId)}>
-                            <View style={styles.row}>
-                                <Text style={styles.text2}>{t("support_related_questions")}</Text>
-                                <Ionicons
-                                    name={expandedId === itemId ? 'chevron-up-outline' : 'chevron-down-outline'}
-                                    size={20}
-                                    color="black"
-                                    style={styles.icon}
-                                />
-                            </View>
-                            {expandedId === itemId && (
-                                <View style={styles.dropdown}>
-                                    <Text style={styles.item}>
-                                        {t("available_payment_methods")}
-                                    </Text>
-                                </View>
-                            )}
-                        </TouchableOpacity>
-                    ))}
-                </View>
-                );
-            case 'support':
-                return (
-                    <View>
-                        {[1, 2, 3].map((itemId) => (
-                            <TouchableOpacity key={itemId} style={styles.button2} onPress={() => toggleDropdown(itemId)}>
-                                <View style={styles.row}>
-                                    <Text style={styles.text2}>{t("support_related_questions")}</Text>
-                                    <Ionicons
-                                        name={expandedId === itemId ? 'chevron-up-outline' : 'chevron-down-outline'}
-                                        size={20}
-                                        color="black"
-                                        style={styles.icon}
-                                    />
-                                </View>
-                                {expandedId === itemId && (
-                                    <View style={styles.dropdown}>
-                                        <Text style={styles.item}>
-                                            {t("manage_notifications")}
-                                        </Text>
-                                    </View>
-                                )}
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                );
-            case 'general':
-            default:
-                return (
-                    <View>
-                    {[1, 2, 3].map((itemId) => (
-                        <TouchableOpacity key={itemId} style={styles.button2} onPress={() => toggleDropdown(itemId)}>
-                            <View style={styles.row}>
-                                <Text style={styles.text2}>{t("join_support_group")}</Text>
-                                <Ionicons
-                                    name={expandedId === itemId ? 'chevron-up-outline' : 'chevron-down-outline'}
-                                    size={20}
-                                    color="black"
-                                    style={styles.icon}
-                                />
-                            </View>
-                            {expandedId === itemId && (
-                                <View style={styles.dropdown}>
-                                    <Text style={styles.item}>
-                                           {t("join_support_group")}
-                                    </Text>
-                                </View>
-                            )}
-                        </TouchableOpacity>
-                    ))}
-                </View>
-                );
-        }
-    };
-
-    return (
-        <View style={styles.vb}>
-            <ScrollView
-                horizontal={true} // Cuộn ngang
-                style={styles.scrollView} // Áp dụng style cho ScrollView
-                showsHorizontalScrollIndicator={false} // Ẩn thanh cuộn ngang
-            >
-                <TouchableOpacity
-                    style={[styles.button,{   borderWidth: 1 }, activeTab === 'general' && styles.activeButton]}
-                    onPress={() => setActiveTab('general')}
-                >
-                    <Text style={[styles.text, activeTab === 'general' && styles.activeText]}>{t("overview")}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button,{   borderWidth: 1 }, activeTab === 'account' && styles.activeButton]}
-                    onPress={() => setActiveTab('account')}
-                >
-                    <Text style={[styles.text, activeTab === 'account' && styles.activeText]}>{t("account")}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button,{   borderWidth: 1 }, activeTab === 'payments' && styles.activeButton]}
-                    onPress={() => setActiveTab('payments')}
-                >
-                    <Text style={[styles.text, activeTab === 'payments' && styles.activeText]}>{t("payment")}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button,{   borderWidth: 1 }, activeTab === 'support' && styles.activeButton]}
-                    onPress={() => setActiveTab('support')}
-                >
-                    <Text style={[styles.text, activeTab === 'support' && styles.activeText]}>{t("support")}</Text>
-                </TouchableOpacity>
-            </ScrollView>
-
-            <ScrollView
-                style={styles.verticalScroll} // Áp dụng style cho ScrollView
-                showsHorizontalScrollIndicator={false} // Ẩn thanh cuộn ngang
-            >
-                {renderContent()}
-            </ScrollView>
+      {/* Sub Tab Content */}
+      {activeSubTab === 'Tổng quan' && (
+        <View>
+          <Text style={styles.sectionTitle}>Tổng quan</Text>
+          <View style={styles.questionContainer}>
+            <Text style={styles.question}>Tôi quản lý thông báo của mình như thế nào?</Text>
+            <Text style={styles.answer}>Để quản lý thông báo, hãy vào "Cài đặt", chọn "Thông báo" và tùy chỉnh theo ý muốn của bạn.</Text>
+          </View>
         </View>
-    );
-}
+      )}
+
+      {activeSubTab === 'Tài khoản' && (
+        <View>
+          <Text style={styles.sectionTitle}>Tài khoản</Text>
+          <View style={styles.questionContainer}>
+            <Text style={styles.question}>Làm thế nào để tôi quản lý tài khoản của mình?</Text>
+          </View>
+        </View>
+      )}
+
+      {activeSubTab === 'Sự chi trả' && (
+        <View>
+          <Text style={styles.sectionTitle}>Sự chi trả</Text>
+          <View style={styles.questionContainer}>
+            <Text style={styles.question}>Làm sao để tôi kiểm tra hóa đơn thanh toán?</Text>
+          </View>
+        </View>
+      )}
+
+      {activeSubTab === 'Dịch vụ' && (
+        <View>
+          <Text style={styles.sectionTitle}>Dịch vụ</Text>
+          <View style={styles.questionContainer}>
+            <Text style={styles.question}>Các dịch vụ nào có sẵn?</Text>
+          </View>
+        </View>
+      )}
+    </ScrollView>
+  );
+
+  const RightScreen = () => (
+    <ScrollView style={styles.container}>
+      <Text style={styles.sectionTitle}>Hỗ trợ dịch vụ khách hàng</Text>
+      <TouchableOpacity style={styles.supportOption}>
+        <Ionicons name="headset-outline" size={24} color="black" />
+        <Text style={styles.supportOptionText}>Dịch vụ khách hàng</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.supportOption}>
+        <Ionicons name="logo-whatsapp" size={24} color="black" />
+        <Text style={styles.supportOptionText}>WhatsApp</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.supportOption}>
+        <Ionicons name="globe-outline" size={24} color="black" />
+        <Text style={styles.supportOptionText}>Trang web</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.supportOption}>
+        <Ionicons name="logo-facebook" size={24} color="black" />
+        <Text style={styles.supportOptionText}>Facebook</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.supportOption}>
+        <Ionicons name="logo-twitter" size={24} color="black" />
+        <Text style={styles.supportOptionText}>Twitter</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.supportOption}>
+        <Ionicons name="logo-instagram" size={24} color="black" />
+        <Text style={styles.supportOptionText}>Instagram</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Hỗ trợ khách hàng</Text>
+      </View>
+
+      {/* Top Nav */}
+      <View style={styles.navContainer}>
+        <TouchableOpacity onPress={() => setActiveTab('left')} style={[styles.navItem, activeTab === 'left' && styles.activeNav]}>
+          <Text style={styles.navText}>Câu hỏi thường gặp</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveTab('right')} style={[styles.navItem, activeTab === 'right' && styles.activeNav]}>
+          <Text style={styles.navText}>Hỗ trợ dịch vụ</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Screen Content */}
+      {activeTab === 'left' ? <LeftScreen /> : <RightScreen />}
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: "#F7F6F6",
-        borderColor: "#000",
-        borderRadius: 25,
-        height: 50,
-        marginTop: 20,
-        paddingTop: 12,
-        left: 0,
-        padding: 10,
-        marginLeft: 10,
-    },
-    button2: {
-        width: '90%',
-        backgroundColor: "#FBFBFB",
-        borderColor: "#fff",
-        borderRadius: 20,
-        // paddingTop: 12,
-        padding: 10,
-        // alignItems: "center",
-        marginLeft: 20,
-        // marginRight: 20,
-        marginTop: 20
-    },
-    text: {
-        color: "#000",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    text2: {
-        color: "#000",
-        fontSize: 16,
-        fontWeight: "bold",
-        flex: 1,
-    },
-    verticalScroll: {
-        flex: 1,
-        marginTop: -540
-    },
-    dropdown: {
-       
-        backgroundColor: '#FBFBFB',
-        borderRadius: 5,
-    },
-    vb: {
-        backgroundColor: '#fff'
-    },
-    item: {
-        fontSize: 14,
-        marginLeft: '-1%',
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-        
-    },
-    icon: {
-        marginLeft: 10,
-        marginBottom: 10,
-    },
-    activeButton:{
-        backgroundColor: '#182EF3', // Màu xanh biển cho button active
-    },
-    activeText: {
-        color: '#FFFFFF', // Màu chữ trắng cho button active
-    },
-    
-    
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  header: {
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  navContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  navItem: {
+    paddingVertical: 15,
+  },
+  activeNav: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#007AFF',
+  },
+  navText: {
+    fontSize: 16,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginVertical: 20,
+  },
+  questionContainer: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  question: {
+    fontSize: 16,
+  },
+  answer: {
+    fontSize: 14,
+    color: 'gray',
+    marginTop: 5,
+  },
+  supportOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  supportOptionText: {
+    fontSize: 16,
+    marginLeft: 15,
+  },
+  tabScrollView: {
+    marginBottom: 20,
+  },
+  tab: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    backgroundColor: '#f0f0f0',
+    marginRight: 10,
+  },
+  activeTab: {
+    backgroundColor: '#007AFF',
+  },
+  tabText: {
+    color: 'black',
+    fontSize: 14,
+  },
+  activeTabText: {
+    color: 'white',
+  },
 });
+
+export default FaqScreen;

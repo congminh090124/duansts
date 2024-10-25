@@ -13,10 +13,9 @@ const searchProducts = async (keyword) => {
   try {
     console.log(`Searching for: "${keyword}"`);
     const response = await fetch(API_URLS.SEARCH_PRODUCT(keyword));
-    const navigation = useNavigation();
-    const { language  } = useLanguage();
+
   
-    const t = (key) => translations[language][key];
+
     const responseText = await response.text();
     console.log('Response text:', responseText);
 
@@ -52,7 +51,7 @@ export const addNewProduct = async (productName) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || `${t('Erro_when_craftproduct')}`);
+      throw new Error(errorData.message || 'Lỗi khi tạo sản phẩm mới');
     }
 
     const data = await response.json();
@@ -105,10 +104,8 @@ const addToCart = async (productId, quantity, unit) => {
 };
 
 export default function OderProductScreen() {
-
   const { language } = useLanguage();
-  const t = (key) => translations[language][key];
-// navigation
+  // navigation
   const navigation = useNavigation();
   // menu
   const [menuVisible, setMenuVisible] = useState(false);
@@ -116,15 +113,15 @@ export default function OderProductScreen() {
  
   const handleLogout = () => {
     Alert.alert(
-      `${t('confirmlogout')}`,
-      `${t('confirmlogout2')}`,
+      "Xác nhận đăng xuất",
+      "Bạn có chắc chắn muốn đăng xuất?",
       [
         {
-          text: `${t('Cancel')}`,
+          text: "Hủy",
           style: "cancel"
         },
         { 
-          text: `${t('logout')}`, 
+          text: "Đăng xuất", 
           onPress: async () => {
             try {
               // Clear the user's session data
@@ -138,7 +135,7 @@ export default function OderProductScreen() {
               });
             } catch (error) {
               console.error('Error during logout:', error);
-              Alert.alert(`${t('logoutErro')}`, );
+              Alert.alert('Lỗi đăng xuất', 'Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại.');
             }
           }
         }
@@ -149,10 +146,12 @@ export default function OderProductScreen() {
 
   
   const menuOptions = [
-    { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
-    { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-    { title: `${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
-    { title:  `${t('logout')}`, onPress: () =>  handleLogout()},
+    { title: translations[language].home, onPress: () => navigation.navigate("DropDownPicker") },
+    { title: translations[language].cart, onPress: () => navigation.navigate("ListOder") },
+    { title: translations[language].History, onPress: () => navigation.navigate("OrderListCode") },
+    { title: translations[language].supportcustomer, onPress: () => navigation.navigate("FaqScreen") },
+    { title: translations[language].notification, onPress: () => navigation.navigate("ThongBaoScreen") },
+    { title: translations[language].logout, onPress: () => handleLogout() },
   ];
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [quantity, setQuantity] = useState(''); // Trạng thái để lưu số lượng
@@ -160,7 +159,7 @@ export default function OderProductScreen() {
   const [open, setOpen] = useState(false); // Trạng thái mở/đóng của dropdown
   const [items, setItems] = useState([
     { label: 'Kg', value: 'kg' },
-    { label: `${t('An')}`, value: 'An' },
+    { label: 'Con', value: 'con' },
   ]);
   const [productName, setProductName] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -182,11 +181,11 @@ export default function OderProductScreen() {
   const handleSearch = async (keyword) => {
     try {
       const results = await searchProducts(keyword);
-      console.log(`${t('    Search_results:"Search results:"')}`, results); // Log results để kiểm tra
+      console.log('Search results:', results); // Log results để kiểm tra
       setSearchResults(results);
       setShowResults(true);
     } catch (error) {
-      console.error(`${t('Error_searching_products')}`, error);
+      console.error('Error searching products:', error);
     }
   };
 
@@ -198,7 +197,7 @@ export default function OderProductScreen() {
 
   const handleAddToCart = async () => {
     if (!productName || !quantity || !unit) {
-      alert(`${t('Please_enter_complete_information')}`);
+      alert(translations[language].Please_enter_full_product);
       return;
     }
 
@@ -206,15 +205,15 @@ export default function OderProductScreen() {
       let productToAdd;
 
       if (!selectedProductId) {
-        console.log(`${t('creating_new')}`);
+        console.log('Đang tạo sản phẩm mới...');
         const newProduct = await addNewProduct(productName);
         productToAdd = newProduct._id;
-        console.log(`${t('newproductHasbeenCraft')}`, newProduct);
+        console.log('Sản phẩm mới đã được tạo:', newProduct);
       } else {
         productToAdd = selectedProductId;
       }
 
-      console.log(`${t('adding_to_cart')}`, { productToAdd, quantity, unit });
+      console.log('Đang thêm vào giỏ hàng...', { productToAdd, quantity, unit });
       await addToCart(productToAdd, quantity, unit);
 
       // Reset form
@@ -223,21 +222,20 @@ export default function OderProductScreen() {
       setUnit(null);
       setSelectedProductId(null);
       
-      alert`${t('product_be_add_to_cart')}`;
+      alert(translations[language].Product_added_to_cart);
     } catch (error) {
-      console.error(`${t('Error')}`, error);
-      alert(`${t('Error')}: ${error.message}`);
+      console.error('Lỗi chi tiết:', error);
+      alert(translations[language].Error_adding_product);
     }
   };
 
   const limitedResults = searchResults.slice(0, 4);
   return (
-    
 
     <SafeAreaView style={styles.container}>
      
       <View style={styles.header}>
-        <Text style={styles.headerText}>Thêm sản phẩm</Text>
+        <Text style={styles.headerText}>{translations[language].add_to_cart_button}</Text>
 
         <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
           <Icon name="menu" size={24} color="#000" />
@@ -270,9 +268,9 @@ export default function OderProductScreen() {
 
       
     
-          <Text style={styles.text1}>{t('nameProduct')}</Text>
+          <Text style={styles.text1}>{translations[language].nameProduct}</Text>
         <TextInput
-          placeholder={t('product_input_placeholder')}
+          placeholder={translations[language].product_input_placeholder}
           style={styles.input}
           value={productName}
           onChangeText={setProductName}
@@ -301,13 +299,13 @@ export default function OderProductScreen() {
         )}
       
           <Text style={styles.text1}>
-            {`${t('quantity')}`}
+            {translations[language].quantity}
           </Text>
 
        
         <View style={styles.quantityContainer}>
   <TextInput
-    placeholder={`${t('enter_quantity')}`}
+    placeholder={translations[language].enter_quantity}
     style={styles.quantityInput}
     keyboardType="numeric"
     value={quantity}
@@ -320,7 +318,7 @@ export default function OderProductScreen() {
     setOpen={setOpen}
     setValue={setUnit}
     setItems={setItems}
-    placeholder={t('unit')}
+    placeholder={translations[language].unit}
     containerStyle={styles.unitPicker}
     style={styles.unitPickerStyle}
     dropDownContainerStyle={styles.dropDownContainerStyle}
@@ -328,7 +326,7 @@ export default function OderProductScreen() {
 </View>
 
         <Text style={styles.textnx}>
-          { `${t('comment')}`}
+          {translations[language].comment}
         </Text>
         <TextInput
 
@@ -336,7 +334,7 @@ export default function OderProductScreen() {
           style={styles.inputnx}
         />
         <TouchableOpacity onPress={handleAddToCart} style={styles.addToCartButton}>
-          <Text style={styles.addToCartButtonText}>{t('add_to_cart_button')}</Text>
+          <Text style={styles.addToCartButtonText}>{translations[language].add_to_cart_button}</Text>
         </TouchableOpacity>
      
     </SafeAreaView>

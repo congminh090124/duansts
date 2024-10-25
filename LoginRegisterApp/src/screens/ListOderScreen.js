@@ -18,9 +18,12 @@ export default function ListOrderScreen() {
     const toggleMenu = () => setMenuVisible(!menuVisible);
 
     const menuOptions = [
-        { title: `${t('home')}`, onPress: () =>navigation.navigate("DropDownPicker") },
-        { title: `${t('cart')}`, onPress: () => navigation.navigate("ListOder") },
-        { title: `${t('History')}`, onPress: () => navigation.navigate("OrderListCode") },
+        { title: translations[language].home, onPress: () => navigation.navigate("DropDownPicker") },
+        { title: translations[language].cart, onPress: () => navigation.navigate("ListOder") },
+        { title: translations[language].History, onPress: () => navigation.navigate("OrderListCode") },
+        { title: translations[language].supportcustomer, onPress: () => navigation.navigate("FaqScreen") },
+        { title: translations[language].notification, onPress: () => navigation.navigate("ThongBaoScreen") },
+        { title: translations[language].logout, onPress: () => handleLogout() },
       ];
     useEffect(() => {
         fetchCartItems();
@@ -40,28 +43,18 @@ export default function ListOrderScreen() {
         }
     };
 
-    const updateQuantity = async (itemId, newQuantity) => {
+    const updateQuantity = (itemId, newQuantity) => {
         if (newQuantity < 1) {
             Alert.alert((`${t('notification')}`), (`${t('Thenumbercannotbelessthan1')}`));
             return;
         }
-        try {
-            const response = await fetch(API_URLS.UPDATE_QUANTITY(itemId), {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ quantity: newQuantity }),
-            });
-            if (response.ok) {
-                fetchCartItems(); // Làm mới giỏ hàng
-            } else {
-                throw new Error(`${t('updatenumberfale')}`);
-            }
-        } catch (error) {
-            console.error(`${t('quantityUpdateError')}`, error);
-            Alert.alert((`${t('error')}`), );
-        }
+    
+        // Cập nhật số lượng cục bộ trong cartItems
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item._id === itemId ? { ...item, quantity: newQuantity } : item
+            )
+        );
     };
 
     const handleDeleteItem = async (itemId) => {
@@ -136,8 +129,8 @@ export default function ListOrderScreen() {
             const data = await response.json();
 
             if (response.status === 201) {
-                Alert.alert(`${t('success')}`, `${t('checkoutSuccess')}`);
-                fetchCartItems(); 
+                // Chuyển hướng đến trang OrderSuccess
+                navigation.navigate('OderSucsess', { orderData: data, cartItems: cartItems });
             } else {
                 Alert.alert(`${t('Error')}`, `${t('checkoutError')}`);
             }
@@ -231,6 +224,8 @@ const styles = StyleSheet.create({
         marginTop: height * 0.05,
     },
     menuButton: {
+       
+        left: '85%',
         padding: 8,
     },
     modalOverlay: {

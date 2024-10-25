@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
@@ -19,13 +20,19 @@ import ListOderScreen from '../screens/ListOderScreen';
 import OderSucsess from '../screens/OderSucsess';
 import FaqScreen from '../screens/FaqScreen';
 import { MenuProvider } from 'react-native-popup-menu'; // Import MenuProvider
+import ThongBaoScreen from '../screens/ThongBaoScreen';
 const Stack = createStackNavigator();
 
 const AppNavigation = () => {
   return (
     <MenuProvider>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="SplashScreen">
+        <Stack.Screen 
+          name="SplashScreen" 
+          component={SplashScreen} 
+          options={{ headerShown: false }} // Hide the header
+        />
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
@@ -39,6 +46,11 @@ const AppNavigation = () => {
         <Stack.Screen 
           name="FaqScreen" 
           component={FaqScreen} 
+          options={{ headerShown: false }} // Hide the header
+        />
+        <Stack.Screen 
+          name="ThongBaoScreen" 
+          component={ThongBaoScreen} 
           options={{ headerShown: false }} // Hide the header
         />
         <Stack.Screen 

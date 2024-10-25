@@ -62,23 +62,25 @@ export const translations = {
     SendOTP: "Send OTP",
     enter_your_mail: "Please enter your gmail",
     submit: "Send",
-      email:"Gmail",
-      phoneNumber:"Number Phone",
-       userEmail:"User Gmail",
-       verification:"Verification",
-         enter_verification_code:"Enter verification code ",
-         resend_code_instruction:"Resend code",
-          Account_verification_successful:"Account verification successful",
-          Invalid_OTP_Please_try_again:"Invalid OTP. Please try again",
-            Something_went_wrong:"Something went wrong. Please try again",
-             forgotPassword:"Forgot password",
-             enter_verification_code:"Enter OPT",
-             logoutErro:"Log Out Erro",
-             confirmlogout:"Confirm Log Out",
-             confirmlogout2:"do you want to log out",
-             Cancel:"Cancel"
-
-},
+    email: "Gmail",
+    phoneNumber: "Number Phone",
+    userEmail: "User Gmail",
+    verification: "Verification",
+    enter_verification_code: "Enter verification code ",
+    resend_code_instruction: "Resend code",
+    Account_verification_successful: "Account verification successful",
+    Invalid_OTP_Please_try_again: "Invalid OTP. Please try again",
+    Something_went_wrong: "Something went wrong. Please try again",
+    forgotPassword: "Forgot password",
+    enter_verification_code: "Enter OPT",
+    logoutErro: "Log Out Erro",
+    confirmlogout: "Confirm Log Out",
+    confirmlogout2: "do you want to log out",
+    Cancel: "Cancel",
+    supportcustomer: "Support Customer",
+    notification:"Notification",
+    client:"Customer"
+  },
 
 
 
@@ -204,8 +206,10 @@ export const translations = {
     confirmlogout: "Xác nhận đăng xuất",
     confirmlogout2: "Bạn có chắc muốn đăng xuất",
     Cancel: "Huỷ",
-    next:"Đến tiếp theo",
-    An:"Con, cái,quả,bó",
-    History:"Lịch sử mua hàng"
+    next: "Đến tiếp theo",
+    An: "Con, cái,quả,bó",
+    History: "Lịch sử mua hàng",
+     supportcustomer: "Hỗ trợ khách hàng",
+     notification: "Thông Báo"
   }
 };
