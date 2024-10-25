@@ -28,7 +28,7 @@ export const translations = {
     checkoutSuccess: "Oder successful",
     falepay: "Failed to process payment",
     logout: "Log out",
-    nameProduct: "Product name",
+    nameProduct: "Product name : ",
     product_input_placeholder: "Name of products",
     add_to_cart_button: "Add to cart",
     product_be_add_to_cart: "Product has been added to cart",
@@ -55,7 +55,7 @@ export const translations = {
     name: "Name",
     customer_name: "customer Name",
     status: "Status",
-    order_date: "Oder date",
+    order_date: "Oder date : ",
     order_code: "Oder code",
     Enter_your_order_code: "Enter your oder code",
     BacktoLogin: "Back to login",
@@ -80,8 +80,8 @@ export const translations = {
     supportcustomer: "Support Customer",
     notification:"Notification",
     client:"Customer",
-    code_order: "Code Order",
-    situation:"Status",
+    code_order: "Code Order : ",
+    situation:"Status : ",
     RecentOrders: "Recent Orders",
     support: "support",
     supportCustomer: "Support Customer",
@@ -100,7 +100,9 @@ export const translations = {
     support_service: "Support service",
      how_can_i_manage_my_account: "How can I manage my account?",
       customer_service_support: "Customer service support",
-      web:"Website"
+      web:"Website",
+      order_detail:"Order detail",
+      close: "Close "
 
   },
 
@@ -123,9 +125,9 @@ export const translations = {
     already_have_account: "Bạn đã có tài khoản?",
     order_history: "Lịch sử đơn hàng",
     search_placeholder: "Vui lòng nhập số đơn hàng của bạn",
-    code_order: "Mã đơn hàng",
+    code_order: "Mã đơn hàng : ",
     pay: "Thanh toán",
-    situation: "Tình trạng:",
+    situation: "Tình trạng : ",
     client: "Khách hàng",
 
     no_process: "Không có quy trình",
@@ -178,7 +180,7 @@ export const translations = {
     success: "Thành công",
     checkoutSuccess: "Đặt mua thành công",
     falepay: "Thanh toán lỗi",
-    nameProduct: "Tên sản phẩm",
+    nameProduct: "Tên sản phẩm : ",
     product_input_placeholder: "Nhập tên sản phẩm",
     add_to_cart_button: "Thêm vào giỏ  hàng",
     product_be_add_to_cart: "Sản phẩm đã được thêm vào giỏ hàng",
@@ -206,7 +208,7 @@ export const translations = {
     name: "Tên",
     customer_name: "Tên khách hàng",
     status: "Trạng thái",
-    order_date: "Ngày đặt hàng",
+    order_date: "Ngày đặt hàng : ",
     order_code: "Mã đặt hàng",
     Enter_your_order_code: "Nhập mã đặt hàng",
     BacktoLogin: "Quay lại đăng nhập",
@@ -251,6 +253,8 @@ export const translations = {
     support_service: "Hỗ trợ dịch vụ",
     how_can_i_manage_my_account: "Làm thế nào để tôi quản lý tài khoản của mình?",
     customer_service_support: "Hỗ trợ dịch vụ khách hàng",
-    web:"Trang web"
+    web:"Trang web",
+    order_detail:"Chi tiết đơn hàng",
+    close: "Đóng"
   }
 };

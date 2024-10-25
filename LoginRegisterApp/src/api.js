@@ -1,4 +1,4 @@
-const BASE_URL = 'https://enhanced-remotely-bobcat.ngrok-free.app';
+const BASE_URL = 'https://sts-rho.vercel.app';
 
 const API_URLS = {
   BASE: BASE_URL,

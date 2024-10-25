@@ -4,8 +4,16 @@ import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import API_URLS from '../api';
+import { useLanguage } from '../language/language';
+import { translations } from '../language/translations';
+
 
 const NotificationItem = ({ item, onPress }) => {
+
+
+  
+
+
   const getIcon = () => {
     switch (item.icon) {
       case 'cloud':
@@ -48,6 +56,8 @@ const ThongBaoScreen = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const { language,  } = useLanguage();
+  const t = (key) => translations[language][key];
 
   useEffect(() => {
     fetchNotifications();
@@ -87,7 +97,7 @@ const ThongBaoScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>thông báo</Text>
+      <Text style={styles.header}>{t('notification')}</Text>
       <FlatList
         data={notifications}
         renderItem={({ item }) => <NotificationItem item={item} onPress={handleNotificationPress} />}
@@ -102,13 +112,13 @@ const ThongBaoScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Chi tiết đơn hàng</Text>
+            <Text style={styles.modalTitle}>{t('order_detail')}</Text>
             {selectedOrder && (
               <>
-                <Text>Mã đơn hàng: {selectedOrder._id}</Text>
-                <Text>Ngày đặt: {new Date(selectedOrder.createdAt).toLocaleString()}</Text>
-                <Text>Tình trạng: {selectedOrder.tinhTrang}</Text>
-                <Text>Sản phẩm:</Text>
+                <Text>{t('code_order')} {selectedOrder._id}</Text>
+                <Text> {t('order_date')} {new Date(selectedOrder.createdAt).toLocaleString()}</Text>
+                <Text>{t('situation')} {selectedOrder.tinhTrang}</Text>
+                <Text>{t('nameProduct')}</Text>
                 {selectedOrder.cartItems.map((item, index) => (
                   <Text key={index}>{item.nameProduct}: {item.quantity} {item.unit}</Text>
                 ))}
@@ -118,7 +128,7 @@ const ThongBaoScreen = () => {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText}>Đóng</Text>
+              <Text style={styles.closeButtonText}>{t('close')}</Text>
             </TouchableOpacity>
           </View>
         </View>
